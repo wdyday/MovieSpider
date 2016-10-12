@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This file contains job definitions in schema version 2.0 format -->
+
+<job-scheduling-data xmlns="http://quartznet.sourceforge.net/JobSchedulingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+
+  <processing-directives>
+    <overwrite-existing-data>true</overwrite-existing-data>
+  </processing-directives>
+
+  <!--任务配置-->
+  <schedule>
+    <job>
+      <name>Dy2018Job</name>
+      <group>Dy2018Job</group>
+      <description>Task Job: Dy2018 Spider</description>
+      <job-type>MovieSpider.Jobs.Dy2018Job, MovieSpider</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>Dy2018JobTrigger</name>
+        <group>Dy2018JobTrigger</group>
+        <job-name>Dy2018Job</job-name>
+        <job-group>Dy2018Job</job-group>
+        <start-time>2016-01-01T00:00:00+08:00</start-time>
+        <cron-expression>0 0/15 * * * ?</cron-expression>
+      </cron>
+    </trigger>
+
+  </schedule>
+  
+</job-scheduling-data>
