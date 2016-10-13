@@ -1,4 +1,5 @@
-﻿using MovieSpider.Spiders;
+﻿using MovieSpider.Consts;
+using MovieSpider.Spiders;
 using NLog;
 using Quartz;
 using System;
@@ -17,9 +18,46 @@ namespace MovieSpider.Jobs
         {
             Console.WriteLine("SwitchBillJob Start! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
 
+            /*
+             * 国内 http://www.dy2018.com/html/gndy/dyzz/index.html
+             * 欧美 http://www.dy2018.com/html/gndy/oumei/index.html
+             * 日韩 http://www.dy2018.com/html/gndy/rihan/index.html                
+             */
+
+            var siteInfos = new List<SiteInfo>
+            {
+                new SiteInfo
+                {
+                    Path = "html/gndy/dyzz",
+                    MaxPageNo = 10
+                },
+                new SiteInfo
+                {
+                    Path = "html/gndy/oumei",
+                    MaxPageNo = 10
+                },
+                new SiteInfo
+                {
+                    Path = "html/gndy/rihan",
+                    MaxPageNo = 10
+                }
+            };
+
             try
             {
-                Dy2018Spider.Run();
+                foreach (var site in siteInfos)
+                {
+                    var urls = new List<string>();
+
+                    for (var i = 1; i <= site.MaxPageNo; i++)
+                    {
+                        var index = i == 1 ? "index" : "index_" + i;
+                        var url = string.Format("http://{0}/{1}/{2}.html", AppSetting.Dy2018Domain, site.Path, index, i);
+                        urls.Add(url);
+                    }
+
+                    Dy2018Spider.Run(urls);
+                }
             }
             catch (Exception ex)
             {
@@ -29,4 +67,10 @@ namespace MovieSpider.Jobs
             Console.WriteLine("SwitchBillJob End! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
         }
     }
+}
+
+public class SiteInfo
+{
+    public string Path;
+    public int MaxPageNo;
 }
