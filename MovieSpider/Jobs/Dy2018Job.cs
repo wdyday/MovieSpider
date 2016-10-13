@@ -19,7 +19,8 @@ namespace MovieSpider.Jobs
             Console.WriteLine("SwitchBillJob Start! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
 
             /*
-             * 国内 http://www.dy2018.com/html/gndy/dyzz/index.html
+             * 最新 http://www.dy2018.com/html/gndy/dyzz/index.html
+             * 国内 http://www.dy2018.com/html/gndy/china/index.html
              * 欧美 http://www.dy2018.com/html/gndy/oumei/index.html
              * 日韩 http://www.dy2018.com/html/gndy/rihan/index.html                
              */
@@ -29,6 +30,11 @@ namespace MovieSpider.Jobs
                 new SiteInfo
                 {
                     Path = "html/gndy/dyzz",
+                    MaxPageNo = 10
+                },
+                new SiteInfo
+                {
+                    Path = "html/gndy/china",
                     MaxPageNo = 10
                 },
                 new SiteInfo

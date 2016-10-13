@@ -26,7 +26,7 @@ namespace MovieSpider.Spiders
             site.AddStartUrls(urls);
 
             // 使用内存Scheduler、自定义PageProcessor、自定义Pipeline创建爬虫
-            Spider spider = Spider.Create(site, new Dy2018Processor(), new QueueDuplicateRemovedScheduler()).AddPipeline(new Dy2018Pipeline()).SetThreadNum(2);
+            Spider spider = Spider.Create(site, new Dy2018Processor(), new QueueDuplicateRemovedScheduler()).AddPipeline(new Dy2018Pipeline()).SetThreadNum(1);
             spider.EmptySleepTime = 10 * 1000;
             // 注册爬虫到监控服务
             MonitorCenter.Register(spider);
@@ -56,7 +56,7 @@ namespace MovieSpider.Spiders
             {
                 foreach (Dy2018Model model in resultItems.Results[CommonConst.SpiderResult])
                 {
-                    File.AppendAllLines("Dy2018.txt", new[] { model.Title, model.Url });
+                    File.AppendAllLines("Dy2018.txt", new[] { model.Title, model.Url, model.Country.ToString() });
                 }
 
                 // 可以自由实现插入数据库或保存到文件
