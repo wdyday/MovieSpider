@@ -1,4 +1,6 @@
 /.vs/MovieSpider/v14/*.suo
-/MovieSpider/bin
-/MovieSpider/obj
+/MovieSpider.Core/bin
+/MovieSpider.Core/obj
+/MovieSpider.JobManager/bin
+/MovieSpider.JobManager/obj
 /packages

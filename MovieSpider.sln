@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSpider", "MovieSpider\MovieSpider.csproj", "{5E8EACE8-4E83-4A0B-9E17-2C8C8E56EEE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSpider.Core", "MovieSpider.Core\MovieSpider.Core.csproj", "{9FF5A374-9968-468D-9E10-902F16FEE679}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSpider.JobManager", "MovieSpider.JobManager\MovieSpider.JobManager.csproj", "{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5E8EACE8-4E83-4A0B-9E17-2C8C8E56EEE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E8EACE8-4E83-4A0B-9E17-2C8C8E56EEE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E8EACE8-4E83-4A0B-9E17-2C8C8E56EEE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E8EACE8-4E83-4A0B-9E17-2C8C8E56EEE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FF5A374-9968-468D-9E10-902F16FEE679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FF5A374-9968-468D-9E10-902F16FEE679}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FF5A374-9968-468D-9E10-902F16FEE679}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FF5A374-9968-468D-9E10-902F16FEE679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

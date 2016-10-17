@@ -1,5 +1,5 @@
-﻿using MovieSpider.Consts;
-using MovieSpider.Spiders;
+﻿using MovieSpider.Core.Consts;
+using MovieSpider.Core.Spiders;
 using NLog;
 using Quartz;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieSpider.Jobs
+namespace MovieSpider.JobManager.Jobs
 {
     public class Dy2018Job : IJob
     {
@@ -17,6 +17,7 @@ namespace MovieSpider.Jobs
         public void Execute(IJobExecutionContext context)
         {
             Console.WriteLine("SwitchBillJob Start! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+            _logger.Info("SwitchBillJob Start! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
 
             /*
              * 最新 http://www.dy2018.com/html/gndy/dyzz/index.html
@@ -71,6 +72,7 @@ namespace MovieSpider.Jobs
             }
 
             Console.WriteLine("SwitchBillJob End! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+            _logger.Info("SwitchBillJob End! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
         }
     }
 }

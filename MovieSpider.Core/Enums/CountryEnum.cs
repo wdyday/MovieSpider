@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieSpider.Enums
+namespace MovieSpider.Core.Enums
 {
     public enum CountryEnum
     {

@@ -8,8 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieSpider
+namespace MovieSpider.JobManager
 {
+    /// <summary>
+    /// 使用DotnetSpider时,需要引用 HtmlAgilityPack 和 HtmlAgilityPack.CssSelectors, FiddlerCore, Newtonsoft.Json, Microsoft.Extensions.DependencyInjection
+    /// </summary>
     class Program
     {
         static void Main(string[] args)

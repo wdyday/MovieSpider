@@ -14,7 +14,7 @@
       <name>Dy2018Job</name>
       <group>Dy2018Job</group>
       <description>Task Job: Dy2018 Spider</description>
-      <job-type>MovieSpider.Jobs.Dy2018Job, MovieSpider</job-type>
+      <job-type>MovieSpider.JobManager.Jobs.Dy2018Job, MovieSpider.JobManager</job-type>
       <durable>true</durable>
       <recover>false</recover>
     </job>

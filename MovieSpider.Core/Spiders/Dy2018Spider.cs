@@ -5,13 +5,14 @@ using DotnetSpider.Core.Processor;
 using DotnetSpider.Core.Scheduler;
 using DotnetSpider.Core.Selector;
 using MovieSpider.Consts;
-using MovieSpider.Models;
-using MovieSpider.Utils;
+using MovieSpider.Core.Consts;
+using MovieSpider.Core.Models;
+using MovieSpider.Core.Utils;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 
-namespace MovieSpider.Spiders
+namespace MovieSpider.Core.Spiders
 {
     public class Dy2018Spider
     {

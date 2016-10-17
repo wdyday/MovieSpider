@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieSpider.Consts
+namespace MovieSpider.Core.Consts
 {
     public class AppSetting
     {
