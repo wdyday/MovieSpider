@@ -1,11 +1,11 @@
-﻿using MovieSpider.Core.Enums;
+﻿using MovieSpider.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieSpider.Core.Models
+namespace MovieSpider.Data.Models
 {
     public class Dy2018Model
     {

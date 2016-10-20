@@ -6,13 +6,16 @@ using DotnetSpider.Core.Scheduler;
 using DotnetSpider.Core.Selector;
 using MovieSpider.Consts;
 using MovieSpider.Core.Consts;
-using MovieSpider.Core.Models;
-using MovieSpider.Core.Utils;
+using MovieSpider.Core.Ioc;
+using MovieSpider.Data.Entities;
+using MovieSpider.Data.Models;
+using MovieSpider.JobManager.Utils;
+using MovieSpider.Services;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 
-namespace MovieSpider.Core.Spiders
+namespace MovieSpider.JobManager.Spiders
 {
     public class Dy2018Spider
     {
@@ -55,12 +58,23 @@ namespace MovieSpider.Core.Spiders
         {
             public override void Process(ResultItems resultItems)
             {
+                var movies = new List<Movie>();
+
                 foreach (Dy2018Model model in resultItems.Results[CommonConst.SpiderResult])
                 {
-                    File.AppendAllLines("Dy2018.txt", new[] { model.Title, model.Url, model.Country.ToString() });
+                    //File.AppendAllLines("Dy2018.txt", new[] { model.Title, model.Url, model.Country.ToString() });
+                    movies.Add(new Movie
+                    {
+                        CnName = model.Title,
+                        FromUrl = model.Url,
+                        Country = model.Country
+                    });
                 }
 
                 // 可以自由实现插入数据库或保存到文件
+                var movieService = Ioc.Get<IMoviceService>();
+
+                movieService.AddMovies(movies);
             }
         }
     }

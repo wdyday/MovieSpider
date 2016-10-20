@@ -1,4 +1,4 @@
-﻿using MovieSpider.Core.Enums;
+﻿using MovieSpider.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,10 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieSpider.Core.Entities
+namespace MovieSpider.Data.Entities
 {
     public class Movie
     {
+        [Key]
+        public int MovieId { get; set; }
+
         [StringLength(300)]
         public string CnName { get; set; }
 
@@ -31,9 +34,14 @@ namespace MovieSpider.Core.Entities
         public CountryEnum Country { get; set; }
 
         /// <summary>
+        /// 发布日期
+        /// </summary>
+        public DateTime CreateDate { get; set; }
+
+        /// <summary>
         /// 首映日期
         /// </summary>
-        public DateTime PremiereDate { get; set; }
+        public DateTime? PremiereDate { get; set; }
 
         /// <summary>
         /// 抓取完成

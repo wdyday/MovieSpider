@@ -53,6 +53,22 @@
       <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DotnetSpider.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resource\DotnetSpider.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotnetSpider.Extension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resource\DotnetSpider.Extension.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FiddlerCore4, Version=4.6.2.0, Culture=neutral, PublicKeyToken=67cb91587178ac5a, processorArchitecture=MSIL">
       <HintPath>..\packages\FiddlerCore2.1.0.0\lib\net40\FiddlerCore4.dll</HintPath>
       <Private>True</Private>
@@ -99,6 +115,8 @@
     <Compile Include="Jobs\Dy2018Job.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spiders\Dy2018Spider.cs" />
+    <Compile Include="Utils\Dy2018Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -123,6 +141,14 @@
     <ProjectReference Include="..\MovieSpider.Core\MovieSpider.Core.csproj">
       <Project>{9ff5a374-9968-468d-9e10-902f16fee679}</Project>
       <Name>MovieSpider.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MovieSpider.Data\MovieSpider.Data.csproj">
+      <Project>{66fb8ee2-f2c5-4fa9-9a42-6f6f15391d7f}</Project>
+      <Name>MovieSpider.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MovieSpider.Services\MovieSpider.Services.csproj">
+      <Project>{ed45fecd-002c-40f4-9551-5abea459d65e}</Project>
+      <Name>MovieSpider.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

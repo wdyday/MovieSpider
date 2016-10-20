@@ -1,8 +1,8 @@
 ﻿using DotnetSpider.Core;
 using DotnetSpider.Core.Selector;
 using MovieSpider.Core.Consts;
-using MovieSpider.Core.Enums;
-using MovieSpider.Core.Models;
+using MovieSpider.Data.Enums;
+using MovieSpider.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MovieSpider.Core.Utils
+namespace MovieSpider.JobManager.Utils
 {
     public class Dy2018Util
     {

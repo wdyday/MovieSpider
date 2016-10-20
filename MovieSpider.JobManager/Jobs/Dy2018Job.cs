@@ -1,5 +1,7 @@
 ﻿using MovieSpider.Core.Consts;
-using MovieSpider.Core.Spiders;
+using MovieSpider.Core.Ioc;
+using MovieSpider.JobManager.Spiders;
+using MovieSpider.Services;
 using NLog;
 using Quartz;
 using System;
@@ -70,6 +72,7 @@ namespace MovieSpider.JobManager.Jobs
             {
                 _logger.Info(ex);
             }
+
 
             Console.WriteLine("SwitchBillJob End! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
             _logger.Info("SwitchBillJob End! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));

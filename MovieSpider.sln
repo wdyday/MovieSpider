@@ -7,6 +7,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSpider.Core", "MovieSp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSpider.JobManager", "MovieSpider.JobManager\MovieSpider.JobManager.csproj", "{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSpider.Data", "MovieSpider.Data\MovieSpider.Data.csproj", "{66FB8EE2-F2C5-4FA9-9A42-6F6F15391D7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSpider.Services", "MovieSpider.Services\MovieSpider.Services.csproj", "{ED45FECD-002C-40F4-9551-5ABEA459D65E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resource", "Resource", "{4CBE47E9-2D23-4288-9C0A-F2E09A39E9A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{379C5C62-222B-4B22-A9AE-81517812C9E2}"
+	ProjectSection(SolutionItems) = preProject
+		Resource\DotnetSpider.Core.dll = Resource\DotnetSpider.Core.dll
+		Resource\DotnetSpider.Core.pdb = Resource\DotnetSpider.Core.pdb
+		Resource\DotnetSpider.Extension.dll = Resource\DotnetSpider.Extension.dll
+		Resource\DotnetSpider.Extension.pdb = Resource\DotnetSpider.Extension.pdb
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +35,19 @@ Global
 		{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FB8EE2-F2C5-4FA9-9A42-6F6F15391D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FB8EE2-F2C5-4FA9-9A42-6F6F15391D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FB8EE2-F2C5-4FA9-9A42-6F6F15391D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FB8EE2-F2C5-4FA9-9A42-6F6F15391D7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED45FECD-002C-40F4-9551-5ABEA459D65E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED45FECD-002C-40F4-9551-5ABEA459D65E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED45FECD-002C-40F4-9551-5ABEA459D65E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED45FECD-002C-40F4-9551-5ABEA459D65E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{379C5C62-222B-4B22-A9AE-81517812C9E2} = {4CBE47E9-2D23-4288-9C0A-F2E09A39E9A6}
 	EndGlobalSection
 EndGlobal
