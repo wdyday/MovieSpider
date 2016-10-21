@@ -3,5 +3,11 @@
 /MovieSpider.Core/obj
 /MovieSpider.JobManager/bin
 /MovieSpider.JobManager/obj
+/MovieSpider.Services/bin
+/MovieSpider.Services/obj
+/MovieSpider.Test/bin
+/MovieSpider.Test/obj
+/MovieSpider.Data/bin
+/MovieSpider.Data/obj
 /packages
 /.vs/config/applicationhost.config

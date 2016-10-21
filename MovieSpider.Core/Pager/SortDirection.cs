@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieSpider.Data.Enums
+namespace MovieSpider.Core.Pager
 {
-    public enum CountryEnum
+    public enum SortDirection
     {
-        China = 1,
-        EuropeOrAmerica,
-        JapanOrKorea
+        None = 0,
+        Asc = 1,
+        Desc = 2
     }
 }

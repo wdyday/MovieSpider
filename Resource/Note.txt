@@ -1,0 +1,10 @@
+https://github.com/zlzforever/DotnetSpider
+使用DotnetSpider时需要引用:
+ HtmlAgilityPack
+ HtmlAgilityPack.CssSelectors, 
+ FiddlerCore, 
+ Newtonsoft.Json, 
+ Microsoft.Extensions.DependencyInjection
+
+ ===================================================================
+ https://github.com/leotsai/mvcsolution

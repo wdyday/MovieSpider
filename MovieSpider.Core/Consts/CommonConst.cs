@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieSpider.Consts
+namespace MovieSpider.Core.Consts
 {
     public class CommonConst
     {
+        public static readonly string DateFormatYmdhms = "yyyy/MM/dd HH:mm:ss";
+        public static readonly int PageSize = 20;
+
         public static readonly string UTF8 = "UTF-8";
         public static readonly string SpiderResult = "SpiderResult";
+        public static readonly string SpiderDetailResult = "SpiderDetailResult";
     }
 }

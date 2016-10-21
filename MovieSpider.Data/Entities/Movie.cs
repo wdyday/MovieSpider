@@ -39,9 +39,15 @@ namespace MovieSpider.Data.Entities
         public DateTime CreateDate { get; set; }
 
         /// <summary>
-        /// 首映日期
+        /// 首映日期: 取最小的日期, 如 2016-10-21(中国大陆) / 2016-08-26(美国) / 2016-08-31(法国), 取 2016-08-26(美国)
         /// </summary>
         public DateTime? PremiereDate { get; set; }
+
+        /// <summary>
+        /// 首映日期: 2016-10-21(中国大陆) / 2016-08-26(美国) / 2016-08-31(法国)
+        /// </summary>
+        [StringLength(1000)]
+        public string PremiereDateMulti { get; set; }
 
         /// <summary>
         /// 抓取完成

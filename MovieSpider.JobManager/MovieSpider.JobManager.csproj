@@ -112,11 +112,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Jobs\Dy2018DetailJob.cs" />
     <Compile Include="Jobs\Dy2018Job.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spiders\Dy2018DetailSpider.cs" />
     <Compile Include="Spiders\Dy2018Spider.cs" />
-    <Compile Include="Utils\Dy2018Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -150,6 +151,9 @@
       <Project>{ed45fecd-002c-40f4-9551-5abea459d65e}</Project>
       <Name>MovieSpider.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

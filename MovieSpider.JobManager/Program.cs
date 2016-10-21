@@ -1,4 +1,6 @@
-﻿using NLog;
+﻿using DotnetSpider.Core;
+using DotnetSpider.Core.Monitor;
+using NLog;
 using Quartz;
 using Quartz.Impl;
 using System;
@@ -17,7 +19,7 @@ namespace MovieSpider.JobManager
     {
         static void Main(string[] args)
         {
-            ILogger _logger = LogManager.GetCurrentClassLogger();
+            NLog.ILogger _logger = LogManager.GetCurrentClassLogger();
 
             try
             {
@@ -39,6 +41,10 @@ namespace MovieSpider.JobManager
 
                 // start the schedule 
                 sched.Start();
+
+
+                // 注入爬虫监控服务
+                IocContainer.Default.AddSingleton<IMonitor, NLogMonitor>();
             }
             catch (Exception ex)
             {

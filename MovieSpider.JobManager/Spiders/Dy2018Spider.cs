@@ -4,16 +4,16 @@ using DotnetSpider.Core.Pipeline;
 using DotnetSpider.Core.Processor;
 using DotnetSpider.Core.Scheduler;
 using DotnetSpider.Core.Selector;
-using MovieSpider.Consts;
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Ioc;
 using MovieSpider.Data.Entities;
 using MovieSpider.Data.Models;
-using MovieSpider.JobManager.Utils;
 using MovieSpider.Services;
+using MovieSpider.Services.Utils;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 
 namespace MovieSpider.JobManager.Spiders
 {
@@ -22,7 +22,7 @@ namespace MovieSpider.JobManager.Spiders
         public static void Run(List<string> urls)
         {
             // 注入监控服务
-            IocContainer.Default.AddSingleton<IMonitor, NLogMonitor>();
+            //IocContainer.Default.AddSingleton<IMonitor, NLogMonitor>();
 
             // 定义要采集的 Site 对象, 可以设置 Header、Cookie、代理等
             var site = new Site { EncodingName = AppSetting.Dy2018Encode };
@@ -47,7 +47,7 @@ namespace MovieSpider.JobManager.Spiders
 
             public void Process(Page page)
             {
-                var models = Dy2018Util.ParseHtml(page);
+                var models = Dy2018Util.ParseListHtml(page);
 
                 // 以自定义KEY存入page对象中供Pipeline调用
                 page.AddResultItem(CommonConst.SpiderResult, models);
@@ -71,10 +71,20 @@ namespace MovieSpider.JobManager.Spiders
                     });
                 }
 
-                // 可以自由实现插入数据库或保存到文件
-                var movieService = Ioc.Get<IMoviceService>();
+                if (movies.Count > 0)
+                {
+                    // 可以自由实现插入数据库或保存到文件
+                    var movieService = Ioc.Get<IMoviceService>();
 
-                movieService.AddMovies(movies);
+                    var fromUrls = movies.Select(m => m.FromUrl).ToList();
+                    var dbMovies = movieService.GetMoviesByFromUrls(fromUrls);
+                    var notInDbMovies = movies.Where(m => !dbMovies.Select(dbM => dbM.FromUrl).Contains(m.FromUrl)).ToList();
+
+                    if (notInDbMovies.Count > 0)
+                    {
+                        movieService.AddMovies(movies);
+                    }
+                }
             }
         }
     }

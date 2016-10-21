@@ -18,8 +18,8 @@ namespace MovieSpider.JobManager.Jobs
 
         public void Execute(IJobExecutionContext context)
         {
-            Console.WriteLine("SwitchBillJob Start! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-            _logger.Info("SwitchBillJob Start! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+            Console.WriteLine("SwitchBillJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            _logger.Info("SwitchBillJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
 
             /*
              * 最新 http://www.dy2018.com/html/gndy/dyzz/index.html
@@ -74,8 +74,8 @@ namespace MovieSpider.JobManager.Jobs
             }
 
 
-            Console.WriteLine("SwitchBillJob End! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-            _logger.Info("SwitchBillJob End! " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+            Console.WriteLine("SwitchBillJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            _logger.Info("SwitchBillJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
         }
     }
 }
