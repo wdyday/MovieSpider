@@ -1,6 +1,7 @@
 ﻿using MovieSpider.Core.Consts;
 using MovieSpider.Core.Ioc;
 using MovieSpider.Core.Utils;
+using MovieSpider.JobManager.Spiders;
 using MovieSpider.Services;
 using NLog;
 using Quartz;
@@ -12,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace MovieSpider.JobManager.Jobs
 {
+    /// <summary>
+    /// 抓取详情页, 每次取100条数据, 每5分钟启动一次, 启动间隔时间不宜太短, 以防重复抓取
+    /// </summary>
     public class Dy2018DetailJob : IJob
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
@@ -24,12 +28,11 @@ namespace MovieSpider.JobManager.Jobs
             try
             {
                 var movieService = Ioc.Get<IMoviceService>();
-                var notDoneCount = movieService.GetNotDoneCount();
-                var pageCount = PagerUtil.CalculatePageCount(notDoneCount);
+                var movies = movieService.GetTopNotDoneMovies(CommonConst.TopCount);
 
-                for (var index = 0; index < pageCount; index++)
+                if (movies.Count > 0)
                 {
-                    var movies = movieService.GetMovies(index, CommonConst.PageSize);
+                    Dy2018DetailSpider.Run(movies);
                 }
             }
             catch (Exception ex)

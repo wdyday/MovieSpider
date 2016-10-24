@@ -22,7 +22,7 @@ namespace MovieSpider.Services
             };
         }
 
-        public void UpdateMovie(Movie movie)
+        public void UpdateDoneMovie(Movie movie)
         {
             var dbMovie = db.Movie.Where(m => m.MovieId == movie.MovieId).FirstOrDefault();
             if (dbMovie != null)
@@ -32,6 +32,7 @@ namespace MovieSpider.Services
                 dbMovie.OtherCnNames = movie.OtherCnNames;
                 dbMovie.PremiereDateMulti = movie.PremiereDateMulti;
                 dbMovie.PremiereDate = movie.PremiereDate;
+                dbMovie.IsDone = true;
 
                 db.SaveChanges();
             }
@@ -58,15 +59,17 @@ namespace MovieSpider.Services
         /// <summary>
         /// 取未抓取完成的总数, 分页用
         /// </summary>
-        /// <returns></returns>
         public int GetNotDoneCount()
         {
             return db.Movie.Where(m => !m.IsDone).Count();
         }
 
-        public PageResult<Movie> GetMovies(int pageIndex, int pageSize)
+        /// <summary>
+        /// 取未抓取完成的
+        /// </summary>
+        public List<Movie> GetTopNotDoneMovies(int top)
         {
-            var movies = db.Movie.OrderBy(m => m.MovieId).ToPageResult(pageIndex, pageSize);
+            var movies = db.Movie.Where(m => !m.IsDone).OrderBy(m => m.MovieId).Take(top).ToList();
 
             return movies;
         }

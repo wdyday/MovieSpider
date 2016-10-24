@@ -1,5 +1,6 @@
 ﻿using MovieSpider.Core.Consts;
 using MovieSpider.Core.Ioc;
+using MovieSpider.Core.Utils;
 using MovieSpider.JobManager.Spiders;
 using MovieSpider.Services;
 using NLog;
@@ -28,44 +29,35 @@ namespace MovieSpider.JobManager.Jobs
              * 日韩 http://www.dy2018.com/html/gndy/rihan/index.html                
              */
 
-            var siteInfos = new List<SiteInfo>
-            {
-                new SiteInfo
-                {
-                    Path = "html/gndy/dyzz",
-                    MaxPageNo = 10
-                },
-                new SiteInfo
-                {
-                    Path = "html/gndy/china",
-                    MaxPageNo = 10
-                },
-                new SiteInfo
-                {
-                    Path = "html/gndy/oumei",
-                    MaxPageNo = 10
-                },
-                new SiteInfo
-                {
-                    Path = "html/gndy/rihan",
-                    MaxPageNo = 10
-                }
-            };
-
             try
             {
+                var siteInfos = JsonUtil.GetJsonData<List<SiteInfo>>(Environment.CurrentDirectory + @"\Configs\SiteInfo.json");
+
                 foreach (var site in siteInfos)
                 {
                     var urls = new List<string>();
 
-                    for (var i = 1; i <= site.MaxPageNo; i++)
+                    if (site.MaxPageNo > 0)
                     {
-                        var index = i == 1 ? "index" : "index_" + i;
-                        var url = string.Format("http://{0}/{1}/{2}.html", AppSetting.Dy2018Domain, site.Path, index, i);
+                        // [大于 0] 循环 1 - MaxPageNo 抓取
+                        for (var i = 1; i <= site.MaxPageNo; i++)
+                        {
+                            var index = i == 1 ? "index" : "index_" + i;
+                            var url = string.Format("http://{0}/{1}/{2}.html", AppSetting.Dy2018Domain, site.Path, index, i);
+                            urls.Add(url);
+                        }
+                    }
+                    else if (site.MaxPageNo < 0)
+                    {
+                        // [小于 0] 抓取当前Url
+                        var url = string.Format("http://{0}/{1}", AppSetting.Dy2018Domain, site.Path);
                         urls.Add(url);
                     }
 
-                    Dy2018Spider.Run(urls);
+                    if(urls.Count > 0)
+                    {
+                        Dy2018Spider.Run(urls);
+                    }
                 }
             }
             catch (Exception ex)
@@ -83,5 +75,11 @@ namespace MovieSpider.JobManager.Jobs
 public class SiteInfo
 {
     public string Path;
-    public int MaxPageNo;
+
+    /// <summary>
+    /// 1: [大于 0] 循环 1 - MaxPageNo 抓取
+    /// 2: [等于 0] 不抓取
+    /// 3: [小于 0] 抓取当前Url
+    /// </summary>
+    public int MaxPageNo; 
 }

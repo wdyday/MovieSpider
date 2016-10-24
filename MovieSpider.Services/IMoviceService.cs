@@ -12,7 +12,7 @@ namespace MovieSpider.Services
     {
         Movie Get(int id);
 
-        void UpdateMovie(Movie movie);
+        void UpdateDoneMovie(Movie movie);
 
         void AddMovies(List<Movie> movies);
 
@@ -20,6 +20,6 @@ namespace MovieSpider.Services
 
         int GetNotDoneCount();
 
-        PageResult<Movie> GetMovies(int pageIndex, int pageSize);
+        List<Movie> GetTopNotDoneMovies(int top);
     }
 }

@@ -29,6 +29,24 @@
       </cron>
     </trigger>
 
+    <job>
+      <name>Dy2018DetailJob</name>
+      <group>Dy2018DetailJob</group>
+      <description>Task Job: Dy2018 Detail Spider</description>
+      <job-type>MovieSpider.JobManager.Jobs.Dy2018DetailJob, MovieSpider.JobManager</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>Dy2018DetailJobTrigger</name>
+        <group>Dy2018DetailJobTrigger</group>
+        <job-name>Dy2018DetailJob</job-name>
+        <job-group>Dy2018DetailJob</job-group>
+        <start-time>2016-01-01T00:00:00+08:00</start-time>
+        <cron-expression>0 0/5 * * * ?</cron-expression>
+      </cron>
+    </trigger>
   </schedule>
   
 </job-scheduling-data>

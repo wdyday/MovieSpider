@@ -146,8 +146,9 @@ namespace MovieSpider.Services.Utils
             var movie = (Movie)spiderPage.Request.GetExtra(spiderPage.TargetUrl);
 
             // 发布时间
-            // xpath: //div[@class='position']/span[@class='updatetime']
-            var createDate = spiderPage.Selectable.Select(Selectors.XPath("//div[@class='position']/span[@class='updatetime']")).GetValue().Trim();
+            // xpath: //div[@class='position']/span[@class='updatetime'] 
+            var createDateStr = spiderPage.Selectable.Select(Selectors.XPath("//div[@class='position']/span[@class='updatetime']")).GetValue().Trim(); // 发布时间：2016-06-13
+            var createDate = GetDate(createDateStr);
 
             // //*[@id="Zoom"]
             var detailNode = spiderPage.Selectable.Select(Selectors.XPath("//*[@id=\"Zoom\"]"));
@@ -159,7 +160,7 @@ namespace MovieSpider.Services.Utils
              */
             var tagPs = detailNode.SelectList(Selectors.XPath(".//p")).Nodes();
 
-            movie.CreateDate = !string.IsNullOrEmpty(createDate) ? Convert.ToDateTime(createDate) : movie.CreateDate;
+            movie.CreateDate = createDate.HasValue ? createDate.Value : movie.CreateDate;
             movie.Detail = detailNode.GetValue();
             movie.OtherCnNames = GetNodeVal(tagPs, "◎译名");
             movie.PremiereDateMulti = GetNodeVal(tagPs, "◎上映日期");
@@ -210,6 +211,18 @@ namespace MovieSpider.Services.Utils
                         return dates.Min(d => d);
                     }
                 }
+            }
+
+            return null;
+        }
+
+        public static DateTime? GetDate(string dateStr)
+        {
+            Regex regex = new Regex(@"((\d{4})(-|/)(\d{1,2})(-|/)(\d{1,2}))");
+            var match = regex.Match(dateStr);
+            if (match.Success)
+            {
+                return Convert.ToDateTime(match.Value);
             }
 
             return null;

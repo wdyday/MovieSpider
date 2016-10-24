@@ -27,8 +27,7 @@ namespace MovieSpider.Data.Entities
 
         [StringLength(300)]
         public string FromUrl { get; set; }
-
-        [StringLength(4000)]
+        
         public string Detail { get; set; }
 
         public CountryEnum Country { get; set; }

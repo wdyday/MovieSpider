@@ -19,7 +19,7 @@ namespace MovieSpider.Test
 
             Assert.IsTrue(isChina);
         }
-        
+
         [TestMethod]
         public void Dy2018UtilTest_GetCountryEnum()
         {
@@ -41,13 +41,7 @@ namespace MovieSpider.Test
         public void Dy2018UtilTest_GetMovies()
         {
             var movieService = Ioc.Get<IMoviceService>();
-            var notDoneCount = movieService.GetNotDoneCount();
-            var pageCount = PagerUtil.CalculatePageCount(notDoneCount);
-
-            for (var index = 0; index < pageCount; index++)
-            {
-                var movies = movieService.GetMovies(index, CommonConst.PageSize);
-            }
+            var movies = movieService.GetTopNotDoneMovies(CommonConst.PageSize);
         }
     }
 }
