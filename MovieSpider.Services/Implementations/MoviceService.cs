@@ -43,6 +43,7 @@ namespace MovieSpider.Services
             movies.ForEach(m =>
             {
                 m.IsDone = false;
+                m.IsSyncDone = false;
                 m.CreateDate = DateTime.Now;
             });
             db.Movie.AddRange(movies);
@@ -72,6 +73,27 @@ namespace MovieSpider.Services
             var movies = db.Movie.Where(m => !m.IsDone).OrderBy(m => m.MovieId).Take(top).ToList();
 
             return movies;
+        }
+
+        /// <summary>
+        /// 取未同步完成的
+        /// </summary>
+        public List<Movie> GetTopNotSyncMovies(int top)
+        {
+            var movies = db.Movie.Where(m => !m.IsSyncDone).OrderBy(m => m.MovieId).Take(top).ToList();
+
+            return movies;
+        }
+
+        /// <summary>
+        /// 更新同步完成标志
+        /// </summary>
+        public void UpdateSyncDone(List<int> movieIds)
+        {
+            var movies = db.Movie.Where(m => movieIds.Contains(m.MovieId)).ToList();
+            movies.ForEach(m => m.IsSyncDone = true);
+
+            db.SaveChanges();
         }
     }
 }

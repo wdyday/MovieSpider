@@ -13,6 +13,6 @@ namespace MovieSpider.Data.Models
 
         public string Url { get; set; }
 
-        public CountryEnum Country { get; set; }
+        public RegionEnum Country { get; set; }
     }
 }

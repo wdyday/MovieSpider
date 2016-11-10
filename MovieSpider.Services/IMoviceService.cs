@@ -20,6 +20,21 @@ namespace MovieSpider.Services
 
         int GetNotDoneCount();
 
+        /// <summary>
+        /// 未抓取详情的数据
+        /// </summary>
+        /// <param name="top">条数</param>
         List<Movie> GetTopNotDoneMovies(int top);
+
+        /// <summary>
+        /// 未同步到api的数据
+        /// </summary>
+        /// <param name="top">条数</param>
+        List<Movie> GetTopNotSyncMovies(int top);
+
+        /// <summary>
+        /// 更新同步完成标志
+        /// </summary>
+        void UpdateSyncDone(List<int> movieIds);
     }
 }

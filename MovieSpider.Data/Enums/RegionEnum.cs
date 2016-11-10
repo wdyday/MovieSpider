@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieSpider.Data.Enums
 {
-    public enum CountryEnum
+    public enum RegionEnum
     {
         China = 1,
         EuropeOrAmerica,

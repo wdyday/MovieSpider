@@ -24,9 +24,9 @@ namespace MovieSpider.Test
         public void Dy2018UtilTest_GetCountryEnum()
         {
             var summary = "◎译　　名　猩红山峰/血色庄园(港)/腥红山庄(台)◎片　　名　Crimson Peak◎年　　代　2015◎国　　家　美国/加拿大◎类　　别　剧情/悬疑/奇幻/惊悚◎语　　言　英语◎字　　幕　中英双字幕◎";
-            CountryEnum? countryEnum = Dy2018Util.GetCountryEnum(summary);
+            RegionEnum? countryEnum = Dy2018Util.GetCountryEnum(summary);
 
-            Assert.IsTrue(countryEnum.Value == CountryEnum.EuropeOrAmerica);
+            Assert.IsTrue(countryEnum.Value == RegionEnum.EuropeOrAmerica);
         }
 
         [TestMethod]

@@ -73,6 +73,7 @@
     <Compile Include="Pager\PageResultExtension.cs" />
     <Compile Include="Pager\SortDirection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponseResult.cs" />
     <Compile Include="Utils\CountryUtil.cs" />
     <Compile Include="Utils\HtmlUtil.cs" />
     <Compile Include="Utils\JsonUtil.cs" />

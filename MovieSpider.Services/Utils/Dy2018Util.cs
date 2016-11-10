@@ -37,14 +37,14 @@ namespace MovieSpider.Services.Utils
                 var url = isSecondATag ? item.Select(Selectors.XPath(".//tr[2]/td[2]/b/a[2]")).Links().GetValue() : item.Select(Selectors.XPath(".//tr[2]/td[2]/b/a")).Links().GetValue().Trim();
                 var summary = item.Select(Selectors.XPath(".//tr[4]/td[1]")).GetValue();
 
-                CountryEnum? countryEnum = GetCountryEnum(summary);
+                RegionEnum? countryEnum = GetCountryEnum(summary);
                 if (countryEnum == null)
                 {
                     countryEnum = GetCountryEnumFromUrl(spiderPage.TargetUrl);
                 }
                 if (countryEnum == null)
                 {
-                    countryEnum = CountryEnum.China;
+                    countryEnum = RegionEnum.China;
                 }
 
                 var blog = new Dy2018Model
@@ -60,14 +60,14 @@ namespace MovieSpider.Services.Utils
             return models;
         }
 
-        public static CountryEnum? GetCountryEnum(string summary)
+        public static RegionEnum? GetCountryEnum(string summary)
         {
             /*
               ◎译    名　星际迷航3：超越星辰/星际迷航13：超越/星际旅行13：超越太空/星空奇遇记13：超域时空(港)/星际争霸战13：浩瀚无垠(台)/星舰奇航记13/星舰迷航记13◎片　　名　Star Trek Beyond◎年　　代　2016◎国　　家　美国◎类　　别　动作/科幻/冒险◎语　　言　英语◎字　　幕　中文字幕◎上映日期　2016-09-02(中国大陆) / 2016-07-22(美国)◎豆瓣评分　7.5/10          
               ◎译　　名　机械师2：复活/极速秒杀2(台)/机械师2/秒速杀机2(港)◎片　　名　Mechanic: Resurrection◎年　　代　2016◎国　　家　法国/美国◎类　　别　动作/犯罪/惊悚◎语　　言　英语/保加利亚语◎字　　幕　中文字幕◎上映日期　2016-10-21(中国大陆) / 2016-08-26(美国) / 2016-08-31(法国)◎豆瓣评分　6.0/10 from 636 users◎IMDb评分　5.9/10 from 9794 users◎文件格
              */
 
-            CountryEnum? countryEnum = null;
+            RegionEnum? countryEnum = null;
 
             summary = Regex.Replace(summary, @"\s", "");
 
@@ -82,15 +82,15 @@ namespace MovieSpider.Services.Utils
 
                 if (CountryUtil.IsChina(country))
                 {
-                    countryEnum = CountryEnum.China;
+                    countryEnum = RegionEnum.China;
                 }
                 else if (CountryUtil.IsJapanOrKoreaa(country))
                 {
-                    countryEnum = CountryEnum.JapanOrKorea;
+                    countryEnum = RegionEnum.JapanOrKorea;
                 }
                 else if (CountryUtil.IsEuropeOrAmerica(country))
                 {
-                    countryEnum = CountryEnum.EuropeOrAmerica;
+                    countryEnum = RegionEnum.EuropeOrAmerica;
                 }
             }
 
@@ -103,9 +103,9 @@ namespace MovieSpider.Services.Utils
          * 欧美 http://www.dy2018.com/html/gndy/oumei/index.html
          * 日韩 http://www.dy2018.com/html/gndy/rihan/index.html                
          */
-        public static CountryEnum? GetCountryEnumFromUrl(string targetUrl)
+        public static RegionEnum? GetCountryEnumFromUrl(string targetUrl)
         {
-            CountryEnum? countryEnum = CountryEnum.China;
+            RegionEnum? countryEnum = RegionEnum.China;
 
             targetUrl = targetUrl.ToLower();
             Regex regex = new Regex(@"http://" + AppSetting.Dy2018Domain + @"/html/gndy/(\w+)/index(_\d+)*\.html");
@@ -117,13 +117,13 @@ namespace MovieSpider.Services.Utils
                 switch (match.Groups[1].Value)
                 {
                     case "china":
-                        countryEnum = CountryEnum.China;
+                        countryEnum = RegionEnum.China;
                         break;
                     case "oumei":
-                        countryEnum = CountryEnum.EuropeOrAmerica;
+                        countryEnum = RegionEnum.EuropeOrAmerica;
                         break;
                     case "rihan":
-                        countryEnum = CountryEnum.JapanOrKorea;
+                        countryEnum = RegionEnum.JapanOrKorea;
                         break;
                     case "dyzz":
                         countryEnum = null;

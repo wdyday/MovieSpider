@@ -30,7 +30,7 @@ namespace MovieSpider.Data.Entities
         
         public string Detail { get; set; }
 
-        public CountryEnum Country { get; set; }
+        public RegionEnum Country { get; set; }
 
         /// <summary>
         /// 发布日期
@@ -52,5 +52,10 @@ namespace MovieSpider.Data.Entities
         /// 抓取完成
         /// </summary>
         public bool IsDone { get; set; }
+
+        /// <summary>
+        /// 同步完成
+        /// </summary>
+        public bool IsSyncDone { get; set; }
     }
 }
