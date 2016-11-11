@@ -67,7 +67,7 @@ namespace MovieSpider.JobManager.Spiders
                     {
                         CnName = model.Title,
                         FromUrl = model.Url,
-                        Country = model.Country
+                        Region = model.Country
                     });
                 }
 

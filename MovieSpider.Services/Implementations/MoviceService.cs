@@ -12,14 +12,7 @@ namespace MovieSpider.Services
     {
         public Movie Get(int id)
         {
-            //db.Movie.ToList();
-
-            return new Movie
-            {
-                MovieId = 1,
-                CnName = "冰河世纪",
-                EnName = ""
-            };
+            return db.Movie.Where(m => m.MovieId == id).FirstOrDefault();
         }
 
         public void UpdateDoneMovie(Movie movie)
@@ -27,7 +20,7 @@ namespace MovieSpider.Services
             var dbMovie = db.Movie.Where(m => m.MovieId == movie.MovieId).FirstOrDefault();
             if (dbMovie != null)
             {
-                dbMovie.CreateDate = movie.CreateDate;
+                dbMovie.CreateTime = movie.CreateTime;
                 dbMovie.Detail = movie.Detail;
                 dbMovie.OtherCnNames = movie.OtherCnNames;
                 dbMovie.PremiereDateMulti = movie.PremiereDateMulti;
@@ -44,7 +37,7 @@ namespace MovieSpider.Services
             {
                 m.IsDone = false;
                 m.IsSyncDone = false;
-                m.CreateDate = DateTime.Now;
+                m.CreateTime = DateTime.Now;
             });
             db.Movie.AddRange(movies);
             db.SaveChanges();
@@ -80,7 +73,7 @@ namespace MovieSpider.Services
         /// </summary>
         public List<Movie> GetTopNotSyncMovies(int top)
         {
-            var movies = db.Movie.Where(m => !m.IsSyncDone).OrderBy(m => m.MovieId).Take(top).ToList();
+            var movies = db.Movie.Where(m => m.IsDone && !m.IsSyncDone).OrderBy(m => m.MovieId).Take(top).ToList();
 
             return movies;
         }

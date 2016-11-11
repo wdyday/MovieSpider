@@ -30,12 +30,12 @@ namespace MovieSpider.Data.Entities
         
         public string Detail { get; set; }
 
-        public RegionEnum Country { get; set; }
+        public RegionEnum Region { get; set; }
 
         /// <summary>
         /// 发布日期
         /// </summary>
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 首映日期: 取最小的日期, 如 2016-10-21(中国大陆) / 2016-08-26(美国) / 2016-08-31(法国), 取 2016-08-26(美国)

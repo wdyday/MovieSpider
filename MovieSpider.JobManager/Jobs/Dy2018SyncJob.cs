@@ -29,7 +29,7 @@ namespace MovieSpider.JobManager.Jobs
             {
                 var movieService = Ioc.Get<IMoviceService>();
 
-                var movies = movieService.GetTopNotSyncMovies(CommonConst.TopCount);
+                var movies = movieService.GetTopNotSyncMovies(CommonConst.SyncTopCount);
 
                 if (movies.Count > 0)
                 {

@@ -160,7 +160,7 @@ namespace MovieSpider.Services.Utils
              */
             var tagPs = detailNode.SelectList(Selectors.XPath(".//p")).Nodes();
 
-            movie.CreateDate = createDate.HasValue ? createDate.Value : movie.CreateDate;
+            movie.CreateTime = createDate.HasValue ? createDate.Value : movie.CreateTime;
             movie.Detail = detailNode.GetValue();
             movie.OtherCnNames = GetNodeVal(tagPs, "◎译名");
             movie.PremiereDateMulti = GetNodeVal(tagPs, "◎上映日期");
