@@ -22,6 +22,7 @@ namespace MovieSpider.Services
             {
                 dbMovie.CreateTime = movie.CreateTime;
                 dbMovie.Detail = movie.Detail;
+                dbMovie.Summary = movie.Summary;
                 dbMovie.OtherCnNames = movie.OtherCnNames;
                 dbMovie.PremiereDateMulti = movie.PremiereDateMulti;
                 dbMovie.PremiereDate = movie.PremiereDate;

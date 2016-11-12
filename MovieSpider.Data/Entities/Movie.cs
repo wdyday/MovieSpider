@@ -27,7 +27,12 @@ namespace MovieSpider.Data.Entities
 
         [StringLength(300)]
         public string FromUrl { get; set; }
-        
+
+        /// <summary>
+        /// 摘要
+        /// </summary>
+        public string Summary { get; set; }
+
         public string Detail { get; set; }
 
         public RegionEnum Region { get; set; }

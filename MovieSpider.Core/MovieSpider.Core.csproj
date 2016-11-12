@@ -78,6 +78,7 @@
     <Compile Include="Utils\HtmlUtil.cs" />
     <Compile Include="Utils\JsonUtil.cs" />
     <Compile Include="Utils\PagerUtil.cs" />
+    <Compile Include="Utils\RegexUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
