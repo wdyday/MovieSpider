@@ -1,18 +1,18 @@
 ﻿[
   {
     "Path": "html/gndy/dyzz",
-    "MaxPageNo": 10
+    "MaxPageNo": 289
   },
   {
     "Path": "html/gndy/china",
-    "MaxPageNo": 10
+    "MaxPageNo": 55
   },
   {
     "Path": "html/gndy/oumei",
-    "MaxPageNo": 10
+    "MaxPageNo": 223
   },
   {
     "Path": "html/gndy/rihan",
-    "MaxPageNo": 10
+    "MaxPageNo": 63
   }
 ]

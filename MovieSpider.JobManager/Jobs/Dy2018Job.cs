@@ -40,7 +40,13 @@ namespace MovieSpider.JobManager.Jobs
                     if (site.MaxPageNo > 0)
                     {
                         // [大于 0] 循环 1 - MaxPageNo 抓取
-                        for (var i = 1; i <= site.MaxPageNo; i++)
+                        //for (var i = 1; i <= site.MaxPageNo; i++)
+                        //{
+                        //    var index = i == 1 ? "index" : "index_" + i;
+                        //    var url = string.Format("http://{0}/{1}/{2}.html", AppSetting.Dy2018Domain, site.Path, index, i);
+                        //    urls.Add(url);
+                        //}
+                        for (var i = site.MaxPageNo; i >= 1; i--)
                         {
                             var index = i == 1 ? "index" : "index_" + i;
                             var url = string.Format("http://{0}/{1}/{2}.html", AppSetting.Dy2018Domain, site.Path, index, i);
