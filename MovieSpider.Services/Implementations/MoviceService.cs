@@ -5,50 +5,63 @@ using System.Text;
 using System.Threading.Tasks;
 using MovieSpider.Data.Entities;
 using MovieSpider.Core.Pager;
+using MovieSpider.Data;
 
 namespace MovieSpider.Services
 {
-    public class MoviceService : BaseService, IMoviceService
+    public class MoviceService : IMoviceService
     {
         public Movie Get(int id)
         {
-            return db.Movie.Where(m => m.MovieId == id).FirstOrDefault();
+            using (var db = new SpiderDbContext())
+            {
+                return db.Movie.Where(m => m.MovieId == id).FirstOrDefault();
+            }
         }
 
         public void UpdateDoneMovie(Movie movie)
         {
-            var dbMovie = db.Movie.Where(m => m.MovieId == movie.MovieId).FirstOrDefault();
-            if (dbMovie != null)
+            using (var db = new SpiderDbContext())
             {
-                dbMovie.CreateTime = movie.CreateTime;
-                dbMovie.Detail = movie.Detail;
-                dbMovie.Summary = movie.Summary;
-                dbMovie.OtherCnNames = movie.OtherCnNames;
-                dbMovie.PremiereDateMulti = movie.PremiereDateMulti;
-                dbMovie.PremiereDate = movie.PremiereDate;
-                dbMovie.IsDone = true;
+                var dbMovie = db.Movie.Where(m => m.MovieId == movie.MovieId).FirstOrDefault();
+                if (dbMovie != null)
+                {
+                    dbMovie.CreateTime = movie.CreateTime;
+                    dbMovie.Detail = movie.Detail;
+                    dbMovie.Summary = movie.Summary;
+                    dbMovie.OtherCnNames = movie.OtherCnNames;
+                    dbMovie.PremiereDateMulti = movie.PremiereDateMulti;
+                    dbMovie.PremiereDate = movie.PremiereDate;
+                    dbMovie.IsDone = true;
 
-                db.SaveChanges();
-            }
+                    db.SaveChanges();
+                }
+            }               
         }
 
         public void AddMovies(List<Movie> movies)
         {
-            movies.ForEach(m =>
+            using (var db = new SpiderDbContext())
             {
-                m.IsDone = false;
-                m.IsSyncDone = false;
-                m.CreateTime = DateTime.Now;
-            });
-            db.Movie.AddRange(movies);
-            db.SaveChanges();
+                movies.ForEach(m =>
+                {
+                    m.IsDone = false;
+                    m.IsSyncDone = false;
+                    m.CreateTime = DateTime.Now;
+                });
+                db.Movie.AddRange(movies);
+                db.SaveChanges();
+            }
         }
 
         public List<Movie> GetMoviesByFromUrls(List<string> fromUrls)
         {
-            var movies = db.Movie.Where(m => fromUrls.Contains(m.FromUrl)).ToList();
+            using (var db = new SpiderDbContext())
+            {
+                var movies = db.Movie.Where(m => fromUrls.Contains(m.FromUrl)).ToList();
 
-            return movies;
+                return movies;
+            }
         }
 
         /// <summary>
@@ -56,7 +69,10 @@ namespace MovieSpider.Services
         /// </summary>
         public int GetNotDoneCount()
         {
-            return db.Movie.Where(m => !m.IsDone).Count();
+            using (var db = new SpiderDbContext())
+            {
+                return db.Movie.Where(m => !m.IsDone).Count();
+            }
         }
 
         /// <summary>
@@ -64,9 +80,12 @@ namespace MovieSpider.Services
         /// </summary>
         public List<Movie> GetTopNotDoneMovies(int top)
         {
-            var movies = db.Movie.Where(m => !m.IsDone).OrderBy(m => m.MovieId).Take(top).ToList();
+            using (var db = new SpiderDbContext())
+            {
+                var movies = db.Movie.Where(m => !m.IsDone).OrderBy(m => m.MovieId).Take(top).ToList();
 
-            return movies;
+                return movies;
+            }
         }
 
         /// <summary>
@@ -74,9 +93,12 @@ namespace MovieSpider.Services
         /// </summary>
         public List<Movie> GetTopNotSyncMovies(int top)
         {
-            var movies = db.Movie.Where(m => m.IsDone && !m.IsSyncDone).OrderBy(m => m.MovieId).Take(top).ToList();
+            using (var db = new SpiderDbContext())
+            {
+                var movies = db.Movie.Where(m => m.IsDone && !m.IsSyncDone).OrderBy(m => m.MovieId).Take(top).ToList();
 
-            return movies;
+                return movies;
+            }
         }
 
         /// <summary>
@@ -84,10 +106,13 @@ namespace MovieSpider.Services
         /// </summary>
         public void UpdateSyncDone(List<int> movieIds)
         {
-            var movies = db.Movie.Where(m => movieIds.Contains(m.MovieId)).ToList();
-            movies.ForEach(m => m.IsSyncDone = true);
+            using (var db = new SpiderDbContext())
+            {
+                var movies = db.Movie.Where(m => movieIds.Contains(m.MovieId)).ToList();
+                movies.ForEach(m => m.IsSyncDone = true);
 
-            db.SaveChanges();
+                db.SaveChanges();
+            }
         }
     }
 }
