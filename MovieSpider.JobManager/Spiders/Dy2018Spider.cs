@@ -100,7 +100,7 @@ namespace MovieSpider.JobManager.Spiders
 
                         if (notInDbMovies.Count > 0)
                         {
-                            movieService.AddMovies(movies);
+                            movieService.AddMovies(notInDbMovies);
                         }
                     }
                 }
