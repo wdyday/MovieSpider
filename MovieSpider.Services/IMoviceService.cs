@@ -12,25 +12,36 @@ namespace MovieSpider.Services
     {
         Movie Get(int id);
 
-        void UpdateDoneMovie(Movie movie);
-
         void AddMovies(List<Movie> movies);
 
         List<Movie> GetMoviesByFromUrls(List<string> fromUrls);
 
+        /// <summary>
+        /// 取未抓取完成的总数, 分页用
+        /// </summary>
         int GetNotDoneCount();
 
         /// <summary>
         /// 未抓取详情的数据
         /// </summary>
-        /// <param name="top">条数</param>
-        List<Movie> GetTopNotDoneMovies(int top);
+        /// <param name="index">页号(从1开始)</param>
+        /// <param name="size">页大小</param>
+        List<Movie> GetNotDoneMovies(int index, int size);
+
+        void UpdateDoneMovie(Movie movie);
+
+
+        /// <summary>
+        /// 取未抓取完成的总数, 分页用
+        /// </summary>
+        int GetNotSyncCount();
 
         /// <summary>
         /// 未同步到api的数据
         /// </summary>
-        /// <param name="top">条数</param>
-        List<Movie> GetTopNotSyncMovies(int top);
+        /// <param name="index">页号(从1开始)</param>
+        /// <param name="size">页大小</param>
+        List<Movie> GetNotSyncMovies(int index, int size);
 
         /// <summary>
         /// 更新同步完成标志

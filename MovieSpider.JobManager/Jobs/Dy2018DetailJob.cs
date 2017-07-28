@@ -34,11 +34,18 @@ namespace MovieSpider.JobManager.Jobs
             try
             {
                 var movieService = Ioc.Get<IMoviceService>();
-                var movies = movieService.GetTopNotDoneMovies(CommonConst.TopCount);
 
-                if (movies.Count > 0)
+                var notDoneCount = movieService.GetNotDoneCount();
+                var pageCount = notDoneCount % CommonConst.TopCount == 0 ? notDoneCount / CommonConst.TopCount : notDoneCount / CommonConst.TopCount + 1;
+
+                for (var pageNo = 1; pageNo <= pageCount; pageNo++)
                 {
-                    Dy2018DetailSpider.Run(movies);
+                    var movies = movieService.GetNotDoneMovies(pageNo, CommonConst.TopCount);
+
+                    if (movies.Count > 0)
+                    {
+                        Dy2018DetailSpider.Run(movies);
+                    }
                 }
             }
             catch (Exception ex)

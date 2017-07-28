@@ -63,8 +63,11 @@ namespace MovieSpider.JobManager.Spiders
                 {
                     var movie = Dy2018Util.ParseDetailHtml(page);
 
-                    // 以自定义KEY存入page对象中供Pipeline调用
-                    page.AddResultItem(CommonConst.SpiderDetailResult, movie);
+                    if(movie != null)
+                    {
+                        // 以自定义KEY存入page对象中供Pipeline调用
+                        page.AddResultItem(CommonConst.SpiderDetailResult, movie);
+                    }
                 }
                 catch(Exception ex)
                 {

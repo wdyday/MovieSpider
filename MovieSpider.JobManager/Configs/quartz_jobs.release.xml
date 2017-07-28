@@ -10,11 +10,11 @@
 
   <!--任务配置-->
   <schedule>
-    <!--<job>
+    <job>
       <name>Dy2018Job</name>
       <group>Dy2018Job</group>
       <description>Task Job: Dy2018 Spider</description>
-      <job-type>MovieSpider.Jobs.Dy2018Job, MovieSpider.JobManager</job-type>
+      <job-type>MovieSpider.JobManager.Jobs.Dy2018Job, MovieSpider.JobManager</job-type>
       <durable>true</durable>
       <recover>false</recover>
     </job>
@@ -25,9 +25,9 @@
         <job-name>Dy2018Job</job-name>
         <job-group>Dy2018Job</job-group>
         <start-time>2016-01-01T00:00:00+08:00</start-time>
-        <cron-expression>0 0/15 * * * ?</cron-expression>
+        <cron-expression>0 0 0/5 * * ?</cron-expression>
       </cron>
-    </trigger>-->
+    </trigger>
 
     <job>
       <name>Dy2018DetailJob</name>
@@ -44,7 +44,7 @@
         <job-name>Dy2018DetailJob</job-name>
         <job-group>Dy2018DetailJob</job-group>
         <start-time>2016-01-01T00:00:00+08:00</start-time>
-        <cron-expression>0 0/3 * * * ?</cron-expression>
+        <cron-expression>0 0/30 * * * ?</cron-expression>
       </cron>
     </trigger>
 
@@ -63,7 +63,7 @@
         <job-name>Dy2018SyncJob</job-name>
         <job-group>Dy2018SyncJob</job-group>
         <start-time>2016-01-01T00:00:00+08:00</start-time>
-        <cron-expression>0 0/2 * * * ?</cron-expression>
+        <cron-expression>0 0/30 * * * ?</cron-expression>
       </cron>
     </trigger>
 

@@ -16,6 +16,8 @@ namespace MovieSpider.Services.Utils
 {
     public class Dy2018Util
     {
+        private static NLog.ILogger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         #region List
         /// <summary>
         /// 解析html
@@ -143,46 +145,55 @@ namespace MovieSpider.Services.Utils
         /// </summary>
         public static Movie ParseDetailHtml(Page spiderPage)
         {
-            var movie = (Movie)spiderPage.Request.GetExtra(spiderPage.TargetUrl);
+            Movie movie = null;
 
-            // 发布时间
-            // xpath: //div[@class='position']/span[@class='updatetime'] 
-            var createDateStr = spiderPage.Selectable.Select(Selectors.XPath("//div[@class='position']/span[@class='updatetime']")).GetValue().Trim(); // 发布时间：2016-06-13
-            var createDate = GetDate(createDateStr);
-
-            // //*[@id="Zoom"]
-            var detailNode = spiderPage.Selectable.Select(Selectors.XPath("//*[@id=\"Zoom\"]"));
-
-            /*
-                <p>◎译　　名　机械师2：复活/极速秒杀2(台)/机械师2/秒速杀机2(港)</p>
-                <p>◎上映日期　2016-10-21(中国大陆) / 2016-08-26(美国) / 2016-08-31(法国)</p>
-                <p>◎片　　名　Mechanic: Resurrection</p>
-                <p>◎简　　介</p>
-                <p>　　拍摄于2011年的《机械师》是杰森·斯坦森的代表作，该片翻拍自1972年的同名电影，备受动作片影迷的喜爱。</p>
-                <p>　　续集《机械师2：复活》讲述了顶级杀手亚瑟（杰森·斯坦森饰）被迫再度从事刺客工作，他必须完成一系列不可能的刺杀任务，而他的对手是世界上最危险的人。本以为他已经逃离了以前危险的生活，就此消失，但是某个人居然找到了他，并绑架了他所深爱的女人。为了他和他的爱人能够逃脱，亚瑟必须完成一系列暗杀任务，名单上的人则是世界上头号危险人物。</p>
-                <p>◎影片截图</p>
-                <p><img src="http://tu.23juqing.com/d/file/html/gndy/dyzz/2016-09-28/dbe487185720b384fad632b92304a1ad.jpg" alt="88567.jpg" width="926" height="857"></p>
-             */
-            var tagPs = detailNode.SelectList(Selectors.XPath(".//p")).Nodes();
-
-            movie.CreateTime = createDate.HasValue ? createDate.Value : movie.CreateTime;
-            movie.Detail = GetDetail(detailNode);
-
-            if (ContainsTagSpan(detailNode))
+            try
             {
-                movie.OtherCnNames = GetOldNodeVal(tagPs, "译名");
-                movie.EnName = GetOldNodeVal(tagPs, "片名");
-                movie.PremiereDateMulti = GetNodeVal(tagPs, "上映日期");
-                movie.PremiereDate = GetPremiereDate(movie.PremiereDateMulti);
-                movie.Summary = GetOldNodeVal(tagPs, "简介");
+                movie = (Movie)spiderPage.Request.GetExtra(spiderPage.TargetUrl);
+
+                // 发布时间
+                // xpath: //div[@class='position']/span[@class='updatetime'] 
+                var createDateStr = spiderPage.Selectable.Select(Selectors.XPath("//div[@class='position']/span[@class='updatetime']")).GetValue().Trim(); // 发布时间：2016-06-13
+                var createDate = GetDate(createDateStr);
+
+                // //*[@id="Zoom"]
+                var detailNode = spiderPage.Selectable.Select(Selectors.XPath("//*[@id=\"Zoom\"]"));
+
+                /*
+                    <p>◎译　　名　机械师2：复活/极速秒杀2(台)/机械师2/秒速杀机2(港)</p>
+                    <p>◎上映日期　2016-10-21(中国大陆) / 2016-08-26(美国) / 2016-08-31(法国)</p>
+                    <p>◎片　　名　Mechanic: Resurrection</p>
+                    <p>◎简　　介</p>
+                    <p>　　拍摄于2011年的《机械师》是杰森·斯坦森的代表作，该片翻拍自1972年的同名电影，备受动作片影迷的喜爱。</p>
+                    <p>　　续集《机械师2：复活》讲述了顶级杀手亚瑟（杰森·斯坦森饰）被迫再度从事刺客工作，他必须完成一系列不可能的刺杀任务，而他的对手是世界上最危险的人。本以为他已经逃离了以前危险的生活，就此消失，但是某个人居然找到了他，并绑架了他所深爱的女人。为了他和他的爱人能够逃脱，亚瑟必须完成一系列暗杀任务，名单上的人则是世界上头号危险人物。</p>
+                    <p>◎影片截图</p>
+                    <p><img src="http://tu.23juqing.com/d/file/html/gndy/dyzz/2016-09-28/dbe487185720b384fad632b92304a1ad.jpg" alt="88567.jpg" width="926" height="857"></p>
+                 */
+                var tagPs = detailNode.SelectList(Selectors.XPath(".//p")).Nodes();
+
+                movie.CreateTime = createDate.HasValue ? createDate.Value : movie.CreateTime;
+                movie.Detail = GetDetail(detailNode);
+
+                if (ContainsTagSpan(detailNode))
+                {
+                    movie.OtherCnNames = GetOldNodeVal(tagPs, "译名");
+                    movie.EnName = GetOldNodeVal(tagPs, "片名");
+                    movie.PremiereDateMulti = GetNodeVal(tagPs, "上映日期");
+                    movie.PremiereDate = GetPremiereDate(movie.PremiereDateMulti);
+                    movie.Summary = GetOldNodeVal(tagPs, "简介");
+                }
+                else
+                {
+                    movie.OtherCnNames = GetNodeVal(tagPs, "译名");
+                    movie.EnName = GetNodeVal(tagPs, "片名");
+                    movie.PremiereDateMulti = GetNodeVal(tagPs, "上映日期");
+                    movie.PremiereDate = GetPremiereDate(movie.PremiereDateMulti);
+                    movie.Summary = GetSummary(tagPs);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                movie.OtherCnNames = GetNodeVal(tagPs, "译名");
-                movie.EnName = GetNodeVal(tagPs, "片名");
-                movie.PremiereDateMulti = GetNodeVal(tagPs, "上映日期");
-                movie.PremiereDate = GetPremiereDate(movie.PremiereDateMulti);
-                movie.Summary = GetSummary(tagPs);
+                _logger.Info(ex);
             }
 
             return movie;

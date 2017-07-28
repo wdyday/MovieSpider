@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MovieSpider.JobManager.Jobs
-{ 
+{
     /*
      *   DisallowConcurrentExecution
          禁止并发执行多个相同定义的JobDetail, 
@@ -35,26 +35,32 @@ namespace MovieSpider.JobManager.Jobs
             {
                 var movieService = Ioc.Get<IMoviceService>();
 
-                var movies = movieService.GetTopNotSyncMovies(CommonConst.SyncTopCount);
+                var notSyncCount = movieService.GetNotSyncCount();
+                var pageCount = notSyncCount % CommonConst.SyncTopCount == 0 ? notSyncCount / CommonConst.SyncTopCount : notSyncCount / CommonConst.SyncTopCount + 1;
 
-                if (movies.Count > 0)
+                for (var pageNo = 1; pageNo <= pageCount; pageNo++)
                 {
-                    RestClient client = new RestClient(_movieDomain);
+                    var movies = movieService.GetNotSyncMovies(pageNo, CommonConst.SyncTopCount);
 
-                    var request = new RestRequest("api/Movie/AddMovies", Method.POST);
-                    request.AddJsonBody(movies);
-
-                    var response = client.Execute(request);
-
-                    var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
-                    if (result.Success)
+                    if (movies.Count > 0)
                     {
-                        var movieIds = movies.Select(m => m.MovieId).ToList();
-                        movieService.UpdateSyncDone(movieIds);
-                    }
-                    else
-                    {
-                        _logger.Info(result.Message);
+                        RestClient client = new RestClient(_movieDomain);
+
+                        var request = new RestRequest("api/Movie/AddMovies", Method.POST);
+                        request.AddJsonBody(movies);
+
+                        var response = client.Execute(request);
+
+                        var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
+                        if (result.Success)
+                        {
+                            var movieIds = movies.Select(m => m.MovieId).ToList();
+                            movieService.UpdateSyncDone(movieIds);
+                        }
+                        else
+                        {
+                            _logger.Info(result.Message);
+                        }
                     }
                 }
             }

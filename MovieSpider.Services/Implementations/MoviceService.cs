@@ -36,7 +36,7 @@ namespace MovieSpider.Services
 
                     db.SaveChanges();
                 }
-            }               
+            }
         }
 
         public void AddMovies(List<Movie> movies)
@@ -64,6 +64,8 @@ namespace MovieSpider.Services
             }
         }
 
+        #region 取未抓取完成的
+
         /// <summary>
         /// 取未抓取完成的总数, 分页用
         /// </summary>
@@ -78,24 +80,42 @@ namespace MovieSpider.Services
         /// <summary>
         /// 取未抓取完成的
         /// </summary>
-        public List<Movie> GetTopNotDoneMovies(int top)
+        /// <param name="index">页号(从1开始)</param>
+        /// <param name="size">页大小</param>
+        /// <returns></returns>
+        public List<Movie> GetNotDoneMovies(int index, int size)
         {
             using (var db = new SpiderDbContext())
             {
-                var movies = db.Movie.Where(m => !m.IsDone).OrderBy(m => m.MovieId).Take(top).ToList();
+                var skip = (index - 1) * size;
+                var movies = db.Movie.Where(m => !m.IsDone).OrderBy(m => m.MovieId).Skip(skip).Take(size).ToList();
 
                 return movies;
+            }
+        }
+        #endregion
+
+        #region 未同步完成
+        /// <summary>
+        /// 取未同步完成的总数, 分页用
+        /// </summary>
+        public int GetNotSyncCount()
+        {
+            using (var db = new SpiderDbContext())
+            {
+                return db.Movie.Where(m => m.IsDone && !m.IsSyncDone).Count();
             }
         }
 
         /// <summary>
         /// 取未同步完成的
         /// </summary>
-        public List<Movie> GetTopNotSyncMovies(int top)
+        public List<Movie> GetNotSyncMovies(int index, int size)
         {
             using (var db = new SpiderDbContext())
             {
-                var movies = db.Movie.Where(m => m.IsDone && !m.IsSyncDone).OrderBy(m => m.MovieId).Take(top).ToList();
+                var skip = (index - 1) * size;
+                var movies = db.Movie.Where(m => m.IsDone && !m.IsSyncDone).OrderBy(m => m.MovieId).Skip(skip).Take(size).ToList();
 
                 return movies;
             }
@@ -114,5 +134,7 @@ namespace MovieSpider.Services
                 db.SaveChanges();
             }
         }
+
+        #endregion
     }
 }
