@@ -14,5 +14,17 @@
   {
     "Path": "html/gndy/rihan",
     "MaxPageNo": 1
+  },
+  {
+    "Path": "html/tv/hytv",
+    "MaxPageNo": 26
+  },
+  {
+    "Path": "html/tv/oumeitv",
+    "MaxPageNo": 33
+  },
+  {
+    "Path": "html/tv/rihantv",
+    "MaxPageNo": 48
   }
 ]

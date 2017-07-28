@@ -59,7 +59,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="SpiderDbContext.cs" />
     <Compile Include="Entities\Movie.cs" />
-    <Compile Include="Enums\RegionEnum.cs" />
+    <Compile Include="Enums\Enums.cs" />
     <Compile Include="Models\Dy2018Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

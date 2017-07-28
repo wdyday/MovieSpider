@@ -21,6 +21,9 @@ namespace MovieSpider.JobManager.Spiders
 {
     public class Dy2018Spider
     {
+        /// <summary>
+        /// 启动抓取
+        /// </summary>
         public static void Run(List<string> urls)
         {
             try
@@ -85,7 +88,8 @@ namespace MovieSpider.JobManager.Spiders
                         {
                             CnName = model.Title,
                             FromUrl = model.Url,
-                            Region = model.Country
+                            Region = model.Country,
+                            MediaType = model.MediaType
                         });
                     }
 

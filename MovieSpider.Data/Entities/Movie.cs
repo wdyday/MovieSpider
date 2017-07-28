@@ -35,7 +35,16 @@ namespace MovieSpider.Data.Entities
 
         public string Detail { get; set; }
 
+        /// <summary>
+        /// 地区: 1-国内, 2-欧美, 3-日韩
+        /// </summary>
         public RegionEnum Region { get; set; }
+
+        /// <summary>
+        /// 媒体类型
+        /// 0: 全部, 1: 电影, 2: 电视剧, 3: 动漫, 4: 综艺
+        /// </summary>
+        public MediaTypeEnum MediaType { get; set; }
 
         /// <summary>
         /// 发布日期

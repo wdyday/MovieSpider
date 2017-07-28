@@ -49,7 +49,7 @@
       </cron>
     </trigger>
 
-    <job>
+    <!--<job>
       <name>Dy2018SyncJob</name>
       <group>Dy2018SyncJob</group>
       <description>Task Job: Dy2018 Sync Job</description>
@@ -66,7 +66,7 @@
         <start-time>2016-01-01T00:00:00+08:00</start-time>
         <cron-expression>0 0/2 * * * ?</cron-expression>
       </cron>
-    </trigger>
+    </trigger>-->
     
   </schedule>
   

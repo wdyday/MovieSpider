@@ -41,7 +41,7 @@ namespace MovieSpider.Test
         public void Dy2018UtilTest_GetMovies()
         {
             var movieService = Ioc.Get<IMoviceService>();
-            var movies = movieService.GetTopNotDoneMovies(CommonConst.PageSize);
+            //var movies = movieService.GetTopNotDoneMovies(CommonConst.PageSize);
         }
     }
 }

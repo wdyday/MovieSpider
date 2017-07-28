@@ -14,5 +14,7 @@ namespace MovieSpider.Data.Models
         public string Url { get; set; }
 
         public RegionEnum Country { get; set; }
+
+        public MediaTypeEnum MediaType { get; set; }
     }
 }
