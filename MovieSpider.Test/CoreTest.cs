@@ -30,6 +30,15 @@ namespace MovieSpider.Test
         }
 
         [TestMethod]
+        public void Dy2018UtilTest_GetCountryEnumFromUrl()
+        {
+            var url = "http://www.dy2018.com/html/tv/oumeitv/index.html";
+            RegionEnum? countryEnum = Dy2018Util.GetCountryEnumFromUrl(url);
+
+            Assert.IsTrue(countryEnum.Value == RegionEnum.EuropeOrAmerica);
+        }
+
+        [TestMethod]
         public void Dy2018UtilTest_GetPremiereDate()
         {
             var date = Dy2018Util.GetPremiereDate("2016-10-21(中国大陆) / 2016-08-26(美国) / 2016-08-31(法国)");

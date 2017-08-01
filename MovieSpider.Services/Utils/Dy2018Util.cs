@@ -130,16 +130,16 @@ namespace MovieSpider.Services.Utils
 
         /*
          * 最新 http://www.dy2018.com/html/gndy/dyzz/index.html
-         * 国内 http://www.dy2018.com/html/gndy/china/index.html
-         * 欧美 http://www.dy2018.com/html/gndy/oumei/index.html
-         * 日韩 http://www.dy2018.com/html/gndy/rihan/index.html                
+         * 国内 http://www.dy2018.com/html/gndy/china/index.html     http://www.dy2018.com/html/tv/hytv/index.html 
+         * 欧美 http://www.dy2018.com/html/gndy/oumei/index.html     http://www.dy2018.com/html/tv/oumeitv/index.html 
+         * 日韩 http://www.dy2018.com/html/gndy/rihan/index.html     http://www.dy2018.com/html/tv/rihantv/index.html             
          */
         public static RegionEnum? GetCountryEnumFromUrl(string targetUrl)
         {
             RegionEnum? countryEnum = RegionEnum.China;
 
             targetUrl = targetUrl.ToLower();
-            Regex regex = new Regex(@"http://" + AppSetting.Dy2018Domain + @"/html/gndy/(\w+)/index(_\d+)*\.html");
+            Regex regex = new Regex(@"http://" + AppSetting.Dy2018Domain + @"/html/\w+/(\w+)/index(_\d+)*\.html");
 
             var match = regex.Match(targetUrl);
 
@@ -148,12 +148,15 @@ namespace MovieSpider.Services.Utils
                 switch (match.Groups[1].Value)
                 {
                     case "china":
+                    case "hytv":
                         countryEnum = RegionEnum.China;
                         break;
                     case "oumei":
+                    case "oumeitv":
                         countryEnum = RegionEnum.EuropeOrAmerica;
                         break;
                     case "rihan":
+                    case "rihantv":
                         countryEnum = RegionEnum.JapanOrKorea;
                         break;
                     case "dyzz":
