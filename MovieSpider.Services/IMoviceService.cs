@@ -14,6 +14,8 @@ namespace MovieSpider.Services
 
         void AddMovies(List<Movie> movies);
 
+        void UpdateMovies(List<Movie> movies);
+
         List<Movie> GetMoviesByFromUrls(List<string> fromUrls);
 
         /// <summary>

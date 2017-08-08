@@ -100,11 +100,19 @@ namespace MovieSpider.JobManager.Spiders
 
                         var fromUrls = movies.Select(m => m.FromUrl).ToList();
                         var dbMovies = movieService.GetMoviesByFromUrls(fromUrls);
-                        var notInDbMovies = movies.Where(m => !dbMovies.Select(dbM => dbM.FromUrl).Contains(m.FromUrl)).ToList();
 
-                        if (notInDbMovies.Count > 0)
+                        // 新增
+                        var addMovies = movies.Where(m => !dbMovies.Select(dbM => dbM.FromUrl).Contains(m.FromUrl)).ToList();
+                        // 更新: 电视剧会更新剧集
+                        var updateMovies = movies.Where(m => dbMovies.Select(dbM => dbM.FromUrl).Contains(m.FromUrl)).ToList();
+
+                        if (addMovies.Count > 0)
                         {
-                            movieService.AddMovies(notInDbMovies);
+                            movieService.AddMovies(addMovies);
+                        }
+                        if (updateMovies.Count > 0)
+                        {
+                            movieService.UpdateMovies(updateMovies);
                         }
                     }
                 }

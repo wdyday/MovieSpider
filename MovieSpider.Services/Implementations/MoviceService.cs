@@ -54,6 +54,23 @@ namespace MovieSpider.Services
             }
         }
 
+        public void UpdateMovies(List<Movie> movies)
+        {
+            using (var db = new SpiderDbContext())
+            {
+                var fromUrls = movies.Select(m => m.FromUrl).ToList();
+                var dbMovies = db.Movie.Where(m => fromUrls.Contains(m.FromUrl)).ToList();
+                
+                dbMovies.ForEach(m =>
+                {
+                    m.IsDone = false;
+                    m.IsSyncDone = false;
+                });
+
+                db.SaveChanges();
+            }
+        }
+
         public List<Movie> GetMoviesByFromUrls(List<string> fromUrls)
         {
             using (var db = new SpiderDbContext())
