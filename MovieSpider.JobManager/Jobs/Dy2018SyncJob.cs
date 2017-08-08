@@ -46,7 +46,7 @@ namespace MovieSpider.JobManager.Jobs
                     {
                         RestClient client = new RestClient(_movieDomain);
 
-                        var request = new RestRequest("api/Movie/AddMovies", Method.POST);
+                        var request = new RestRequest("api/Movie/SaveMovies", Method.POST);
                         request.AddJsonBody(movies);
 
                         var response = client.Execute(request);
