@@ -88,7 +88,7 @@ namespace MovieSpider.JobManager.Spiders
                     {
                         // 存储到数据库
                         var movieService = Ioc.Get<IMoviceService>();
-                        movieService.UpdateDoneMovie(movie);
+                        movieService.UpdateMovieDone(movie);
                     }
                 }
                 catch (Exception ex)

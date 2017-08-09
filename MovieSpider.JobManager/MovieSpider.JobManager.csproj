@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="Jobs\Dy2018DetailJob.cs" />
     <Compile Include="Jobs\Dy2018Job.cs" />
+    <Compile Include="Jobs\PostSyncJob.cs" />
     <Compile Include="Jobs\Dy2018SyncJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

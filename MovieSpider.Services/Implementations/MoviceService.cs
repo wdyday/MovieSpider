@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MovieSpider.Data.Entities;
 using MovieSpider.Core.Pager;
 using MovieSpider.Data;
+using MovieSpider.Data.Models;
 
 namespace MovieSpider.Services
 {
@@ -19,7 +20,7 @@ namespace MovieSpider.Services
             }
         }
 
-        public void UpdateDoneMovie(Movie movie)
+        public void UpdateMovieDone(Movie movie)
         {
             using (var db = new SpiderDbContext())
             {
@@ -36,6 +37,58 @@ namespace MovieSpider.Services
 
                     db.SaveChanges();
                 }
+            }
+        }
+
+        /// <summary>
+        /// 同步web数据到Movie
+        /// </summary>
+        /// <param name="posts"></param>
+        public void UpdateMovieByWeb(List<PostModel> posts)
+        {
+            using (var db = new SpiderDbContext())
+            {
+                var fromUrls = posts.Select(p => p.FromUrl).ToList();
+                var dbMovies = db.Movie.Where(m => fromUrls.Contains(m.FromUrl)).ToList();
+
+                foreach (var dbMovie in dbMovies)
+                {
+                    var post = posts.Where(p => p.FromUrl == dbMovie.FromUrl).First();
+
+                    dbMovie.CreateTime = post.CreateTime;
+                    if (!string.IsNullOrEmpty(post.CnName))
+                    {
+                        dbMovie.CnName = post.CnName;
+                    }
+                    if (!string.IsNullOrEmpty(post.EnName))
+                    {
+                        dbMovie.EnName = post.EnName;
+                    }
+                    if (!string.IsNullOrEmpty(post.PostContent))
+                    {
+                        dbMovie.Detail = post.PostContent;
+                    }
+                    if (!string.IsNullOrEmpty(post.Summary))
+                    {
+                        dbMovie.Summary = post.Summary;
+                    }
+                    if (!string.IsNullOrEmpty(post.OtherCnNames))
+                    {
+                        dbMovie.OtherCnNames = post.OtherCnNames;
+                    }
+                    if (post.PremiereDate.HasValue)
+                    {
+                        dbMovie.PremiereDate = post.PremiereDate;
+                    }
+                    if (!string.IsNullOrEmpty(post.PremiereDateMulti))
+                    {
+                        dbMovie.PremiereDateMulti = post.PremiereDateMulti;
+                    }
+                    dbMovie.IsDone = true;
+                    dbMovie.IsSyncedByWeb = true;
+                }
+
+                db.SaveChanges();
             }
         }
 
@@ -60,9 +113,12 @@ namespace MovieSpider.Services
             {
                 var fromUrls = movies.Select(m => m.FromUrl).ToList();
                 var dbMovies = db.Movie.Where(m => fromUrls.Contains(m.FromUrl)).ToList();
-                
+
                 dbMovies.ForEach(m =>
                 {
+                    var movie = movies.Where(mv => mv.FromUrl == m.FromUrl).First();
+
+                    m.CnName = movie.CnName;
                     m.IsDone = false;
                     m.IsSyncDone = false;
                 });
@@ -90,7 +146,7 @@ namespace MovieSpider.Services
         {
             using (var db = new SpiderDbContext())
             {
-                return db.Movie.Where(m => !m.IsDone).Count();
+                return db.Movie.Where(m => !m.IsSyncedByWeb && !m.IsDone).Count();
             }
         }
 
@@ -105,7 +161,7 @@ namespace MovieSpider.Services
             using (var db = new SpiderDbContext())
             {
                 var skip = (index - 1) * size;
-                var movies = db.Movie.Where(m => !m.IsDone).OrderBy(m => m.MovieId).Skip(skip).Take(size).ToList();
+                var movies = db.Movie.Where(m => !m.IsSyncedByWeb && !m.IsDone).OrderBy(m => m.MovieId).Skip(skip).Take(size).ToList();
 
                 return movies;
             }

@@ -1,5 +1,6 @@
 ﻿using MovieSpider.Core.Pager;
 using MovieSpider.Data.Entities;
+using MovieSpider.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,17 @@ namespace MovieSpider.Services
         /// <param name="size">页大小</param>
         List<Movie> GetNotDoneMovies(int index, int size);
 
-        void UpdateDoneMovie(Movie movie);
+        /// <summary>
+        /// 更新 详细信息
+        /// </summary>
+        /// <param name="movie"></param>
+        void UpdateMovieDone(Movie movie);
 
+        /// <summary>
+        /// 网站后台修改的数据同步给 本地抓取库
+        /// </summary>
+        /// <param name="posts"></param>
+        void UpdateMovieByWeb(List<PostModel> posts);
 
         /// <summary>
         /// 取未抓取完成的总数, 分页用

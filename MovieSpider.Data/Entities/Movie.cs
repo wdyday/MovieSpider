@@ -68,8 +68,13 @@ namespace MovieSpider.Data.Entities
         public bool IsDone { get; set; }
 
         /// <summary>
-        /// 同步完成
+        /// 同步给web完成
         /// </summary>
         public bool IsSyncDone { get; set; }
+
+        /// <summary>
+        /// web同步过来, 不需要再抓取
+        /// </summary>
+        public bool IsSyncedByWeb { get; set; }
     }
 }
