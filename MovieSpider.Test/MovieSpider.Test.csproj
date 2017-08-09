@@ -59,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="JobTest.cs" />
     <Compile Include="CoreTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,6 +71,10 @@
     <ProjectReference Include="..\MovieSpider.Data\MovieSpider.Data.csproj">
       <Project>{66fb8ee2-f2c5-4fa9-9a42-6f6f15391d7f}</Project>
       <Name>MovieSpider.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MovieSpider.JobManager\MovieSpider.JobManager.csproj">
+      <Project>{FFAB1EBF-9C44-48FD-BC9B-888954ACD23C}</Project>
+      <Name>MovieSpider.JobManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\MovieSpider.Services\MovieSpider.Services.csproj">
       <Project>{ed45fecd-002c-40f4-9551-5abea459d65e}</Project>

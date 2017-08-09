@@ -36,6 +36,14 @@ namespace MovieSpider.JobManager.Jobs
             Console.WriteLine("PostSyncJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("PostSyncJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
 
+            Run();
+
+            Console.WriteLine("PostSyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            _logger.Info("PostSyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+        }
+
+        public void Run()
+        {
             try
             {
                 var movieService = Ioc.Get<IMoviceService>();
@@ -62,9 +70,6 @@ namespace MovieSpider.JobManager.Jobs
             {
                 _logger.Info(ex);
             }
-
-            Console.WriteLine("PostSyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
-            _logger.Info("PostSyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
         }
 
         #region Rest
@@ -128,7 +133,7 @@ namespace MovieSpider.JobManager.Jobs
                 var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
                 if (result.Success)
                 {
-                    movies = (List<PostModel>)(result.Data);
+                    movies = JsonConvert.DeserializeObject < List<PostModel>>(result.Data.ToString());
                 }
                 else
                 {

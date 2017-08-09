@@ -103,11 +103,15 @@ namespace MovieSpider.Services.Utils
             summary = Regex.Replace(summary, @"\s", "");
 
             Regex regex = new Regex(@"◎国家([\w+/*]+)◎");
+            Regex regex2 = new Regex(@"◎产地([\w+/*]+)◎");
 
             Match match = regex.Match(summary);
-            if (match.Success)
+            Match match2 = regex2.Match(summary);
+            if (match.Success || match2.Success)
             {
-                var country = match.Value.Replace("国家", "").Replace("◎", "");
+                var country = match.Success
+                    ? match.Value.Replace("国家", "").Replace("◎", "")
+                    : match2.Value.Replace("产地", "").Replace("◎", "");
 
                 var isChina = CountryUtil.IsChina(country);
 

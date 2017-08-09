@@ -67,6 +67,25 @@
         <cron-expression>0 0/2 * * * ?</cron-expression>
       </cron>
     </trigger>
+
+    <job>
+      <name>PostSyncJob</name>
+      <group>PostSyncJob</group>
+      <description>Task Job: Sync Post To Movie</description>
+      <job-type>MovieSpider.JobManager.Jobs.PostSyncJob, MovieSpider.JobManager</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>PostSyncJobTrigger</name>
+        <group>PostSyncJobTrigger</group>
+        <job-name>PostSyncJob</job-name>
+        <job-group>PostSyncJob</job-group>
+        <start-time>2016-01-01T00:00:00+08:00</start-time>
+        <cron-expression>0 0/2 * * * ?</cron-expression>
+      </cron>
+    </trigger>
     
   </schedule>
   

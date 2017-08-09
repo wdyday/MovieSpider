@@ -14,7 +14,7 @@ namespace MovieSpider.Core.Utils
         /// </summary>
         public static string ReplaceSpaceTabNewline(string val)
         {
-            return Regex.Replace(val, @"\s", "").Replace("&nbsp;", "");
+            return Regex.Replace(val, @"\s", "").Replace("&nbsp;", "").Replace(" ", "");
         }
     }
 }
