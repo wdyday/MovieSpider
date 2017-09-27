@@ -52,7 +52,7 @@ namespace MovieSpider.Services.Utils
                 var blog = new Dy2018Model
                 {
                     Country = countryEnum.Value,
-                    MediaType = GetMediaTypeEnum(spiderPage.TargetUrl),
+                    MediaType = GetMediaTypeEnum(title, spiderPage.TargetUrl),
                     Title = HtmlUtil.RemoveHTMLTag(title),
                     Url = url
                 };
@@ -67,7 +67,7 @@ namespace MovieSpider.Services.Utils
         /// 媒体类型
         /// 0: 全部, 1: 电影, 2: 电视剧, 3: 动漫, 4: 综艺
         /// </summary>
-        public static MediaTypeEnum GetMediaTypeEnum(string url)
+        public static MediaTypeEnum GetMediaTypeEnum(string title, string url)
         {
             MediaTypeEnum mediaTypeEnum = MediaTypeEnum.None;
 
@@ -86,6 +86,11 @@ namespace MovieSpider.Services.Utils
             else if (url.ToLower().Contains("zongyi"))
             {
                 mediaTypeEnum = MediaTypeEnum.Variety;
+            }
+
+            if (title.Contains("连载至"))
+            {
+                mediaTypeEnum = MediaTypeEnum.TV;
             }
 
             return mediaTypeEnum;
