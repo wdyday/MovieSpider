@@ -84,6 +84,11 @@ namespace MovieSpider.Services
                     {
                         dbMovie.PremiereDateMulti = post.PremiereDateMulti;
                     }
+                    if (post.MediaType.HasValue)
+                    {
+                        dbMovie.MediaType = post.MediaType.Value;
+                    }
+
                     dbMovie.IsDone = true;
                     dbMovie.IsSyncedByWeb = true;
                 }
@@ -119,6 +124,9 @@ namespace MovieSpider.Services
                     var movie = movies.Where(mv => mv.FromUrl == m.FromUrl).First();
 
                     m.CnName = movie.CnName;
+                    m.Region = movie.Region;
+                    m.MediaType = movie.MediaType;
+
                     m.IsDone = false;
                     m.IsSyncDone = false;
                 });

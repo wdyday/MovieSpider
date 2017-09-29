@@ -88,7 +88,7 @@ namespace MovieSpider.Services.Utils
                 mediaTypeEnum = MediaTypeEnum.Variety;
             }
 
-            if (title.Contains("连载至"))
+            if (mediaTypeEnum == MediaTypeEnum.Movie && title.Contains("连载至"))
             {
                 mediaTypeEnum = MediaTypeEnum.TV;
             }
