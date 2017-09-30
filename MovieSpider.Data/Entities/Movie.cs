@@ -19,7 +19,7 @@ namespace MovieSpider.Data.Entities
         /// <summary>
         /// 其他名字: 冰川时代5：星际碰撞/冰原历险记5：笑星撞地球(台)/冰河世纪5/冰川时代5：碰撞航向/冰河世纪：陨石撞地球(港)
         /// </summary>
-        [StringLength(300)]
+        [StringLength(1000)]
         public string OtherCnNames { get; set; }
 
         [StringLength(300)]
