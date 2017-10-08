@@ -6,6 +6,7 @@ using DotnetSpider.Core.Scheduler;
 using DotnetSpider.Core.Selector;
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Ioc;
+using MovieSpider.Core.Utils;
 using MovieSpider.Data.Entities;
 using MovieSpider.Data.Models;
 using MovieSpider.Services;
@@ -75,12 +76,14 @@ namespace MovieSpider.JobManager.Spiders
 
         private class Dy2018Pipeline : BasePipeline
         {
+            private NLog.ILogger _logger = LogManager.GetCurrentClassLogger();
+
             public override void Process(ResultItems resultItems)
             {
+                var movies = new List<Movie>();
+
                 try
                 {
-                    var movies = new List<Movie>();
-
                     foreach (Dy2018Model model in resultItems.Results[CommonConst.SpiderResult])
                     {
                         //File.AppendAllLines("Dy2018.txt", new[] { model.Title, model.Url, model.Country.ToString() });
@@ -118,6 +121,12 @@ namespace MovieSpider.JobManager.Spiders
                 }
                 catch (Exception ex)
                 {
+                    _logger.Info(ex);
+                    if (movies.Count > 0)
+                    {
+                        _logger.Info(JsonUtil.JsonToString(movies));
+                    }
+
                     LogManager.GetCurrentClassLogger().Info(ex);
                 }
             }

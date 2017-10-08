@@ -6,10 +6,12 @@ using DotnetSpider.Core.Scheduler;
 using DotnetSpider.Core.Selector;
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Ioc;
+using MovieSpider.Core.Utils;
 using MovieSpider.Data.Entities;
 using MovieSpider.Data.Models;
 using MovieSpider.Services;
 using MovieSpider.Services.Utils;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,8 @@ namespace MovieSpider.JobManager.Spiders
 {
     public class Dy2018DetailSpider
     {
+        private NLog.ILogger _logger = LogManager.GetCurrentClassLogger();
+
         public static void Run(List<Movie> movies)
         {
             try
@@ -63,13 +67,13 @@ namespace MovieSpider.JobManager.Spiders
                 {
                     var movie = Dy2018Util.ParseDetailHtml(page);
 
-                    if(movie != null)
+                    if (movie != null)
                     {
                         // 以自定义KEY存入page对象中供Pipeline调用
                         page.AddResultItem(CommonConst.SpiderDetailResult, movie);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     LogManager.GetCurrentClassLogger().Info(ex);
                 }
@@ -78,11 +82,14 @@ namespace MovieSpider.JobManager.Spiders
 
         private class Dy2018DetailPipeline : BasePipeline
         {
+            private NLog.ILogger _logger = LogManager.GetCurrentClassLogger();
+
             public override void Process(ResultItems resultItems)
             {
+                Movie movie = null;
                 try
                 {
-                    var movie = resultItems.Results[CommonConst.SpiderDetailResult] as Movie;
+                    movie = resultItems.Results[CommonConst.SpiderDetailResult] as Movie;
 
                     if (movie != null)
                     {
@@ -93,6 +100,12 @@ namespace MovieSpider.JobManager.Spiders
                 }
                 catch (Exception ex)
                 {
+                    _logger.Info(ex);
+                    if (movie != null)
+                    {
+                        _logger.Info(JsonUtil.JsonToString(movie));
+                    }
+
                     LogManager.GetCurrentClassLogger().Info(ex);
                 }
             }

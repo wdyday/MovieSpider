@@ -18,5 +18,10 @@ namespace MovieSpider.Core.Utils
 
             return JsonConvert.DeserializeObject<T>(json);
         }
+
+        public static string JsonToString(object value)
+        {
+            return JsonConvert.SerializeObject(value);
+        }
     }
 }
