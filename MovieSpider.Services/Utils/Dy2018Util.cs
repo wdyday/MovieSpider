@@ -215,19 +215,21 @@ namespace MovieSpider.Services.Utils
                 movie.CreateTime = createDate.HasValue ? createDate.Value : movie.CreateTime;
                 movie.Detail = GetDetail(detailNode);
 
-                if (ContainsTagSpan(detailNode))
+                if (ContainsSpanTag(detailNode) || InSamePTag(tagPs))
                 {
-                    movie.OtherCnNames = GetOldNodeVal(tagPs, "译名");
-                    movie.EnName = GetOldNodeVal(tagPs, "片名");
-                    movie.PremiereDateMulti = GetNodeVal(tagPs, "上映日期");
+                    var node = GetDetailNode(tagPs);
+
+                    movie.OtherCnNames = GetOldNodeValByNames(node, new string[] { "译名" });
+                    movie.EnName = GetOldNodeValByNames(node, new string[] { "片名", "剧名" });
+                    movie.PremiereDateMulti = GetOldNodeValByNames(node, new string[] { "上映日期", "首播日期" });
                     movie.PremiereDate = GetPremiereDate(movie.PremiereDateMulti);
-                    movie.Summary = GetOldNodeVal(tagPs, "简介");
+                    movie.Summary = GetOldNodeValByNames(node, new string[] { "简介" });
                 }
                 else
                 {
-                    movie.OtherCnNames = GetNodeVal(tagPs, "译名");
-                    movie.EnName = GetNodeVal(tagPs, "片名");
-                    movie.PremiereDateMulti = GetNodeVal(tagPs, "上映日期");
+                    movie.OtherCnNames = GetNodeValByNames(tagPs, new string[] { "译名" });
+                    movie.EnName = GetNodeValByNames(tagPs, new string[] { "片名", "剧名" });
+                    movie.PremiereDateMulti = GetNodeValByNames(tagPs, new string[] { "上映日期", "首播日期" });
                     movie.PremiereDate = GetPremiereDate(movie.PremiereDateMulti);
                     movie.Summary = GetSummary(tagPs);
                 }
@@ -264,11 +266,55 @@ namespace MovieSpider.Services.Utils
         /// <summary>
         /// 判断是否包含 <span style="FONT-SIZE: 12px">, 是则为旧格式(2013年以前)数据, 否则为新格式(2013年以后)数据
         /// </summary>
-        public static bool ContainsTagSpan(ISelectable detailNode)
+        public static bool ContainsSpanTag(ISelectable detailNode)
         {
             var nodeVal = RegexUtil.ReplaceSpaceTabNewline(detailNode.GetValue());
 
             return nodeVal.ToLower().Contains("style=\"font-size:12px\"") || nodeVal.ToLower().Contains("style='font-size:12px'");
+        }
+
+        /// <summary>
+        /// 电影信息在同一个P标签中
+        /// 参考: www.dy2018.com/i/92382.html
+        /// </summary>
+        public static bool InSamePTag(IList<ISelectable> nodes)
+        {
+            var isSamePTag = false;
+
+            foreach (var node in nodes)
+            {
+                var nodeVal = RegexUtil.ReplaceSpaceTabNewline(node.GetValue());
+
+                if (nodeVal.Contains("◎") && nodeVal.Split('◎').Length > 1)
+                {
+                    isSamePTag = true;
+                    break;
+                }
+            }
+
+            return isSamePTag;
+        }
+
+        /// <summary>
+        /// 电影信息在同一个P标签中
+        /// 参考: www.dy2018.com/i/92382.html
+        /// </summary>
+        public static ISelectable GetDetailNode(IList<ISelectable> nodes)
+        {
+            ISelectable detailNode = null;
+
+            foreach (var node in nodes)
+            {
+                var nodeVal = RegexUtil.ReplaceSpaceTabNewline(node.GetValue());
+
+                if (nodeVal.Contains("◎") && nodeVal.Split('◎').Length > 1)
+                {
+                    detailNode = node;
+                    break;
+                }
+            }
+
+            return detailNode;
         }
 
         /// <summary>
@@ -375,6 +421,28 @@ namespace MovieSpider.Services.Utils
             }
         }
 
+        /// <summary>
+        /// <p>◎译　　名　机械师2：复活/极速秒杀2(台)/机械师2/秒速杀机2(港)</p>
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <param name="name">译名</param>
+        /// <returns>机械师2：复活/极速秒杀2(台)/机械师2/秒速杀机2(港)</returns>
+        private static string GetNodeValByNames(IList<ISelectable> nodes, string[] names)
+        {
+            string val = null;
+
+            foreach (var name in names)
+            {
+                val = GetNodeVal(nodes, name);
+                if (val != null)
+                {
+                    break;
+                }
+            }
+
+            return val;
+        }
+
         /*
             <p>◎简　　介</p>
             <p>　　拍摄于2011年的《机械师》是杰森·斯坦森的代表作，该片翻拍自1972年的同名电影，备受动作片影迷的喜爱。</p>
@@ -472,14 +540,12 @@ namespace MovieSpider.Services.Utils
         /// <param name="nodes">所有P标签</param>
         /// <param name="name">译名/片名/年代/简介 等</param>
         /// <returns></returns>
-        private static string GetOldNodeVal(IList<ISelectable> nodes, string name)
+        private static string GetOldNodeVal(ISelectable node, string name)
         {
             string val = null;
 
-            name = name.Trim();
-
             //◎译名钢琴木马/钢琴密码/钢琴密码之骇客公敌◎片名PianoTrojan◎年代2013
-            var nodeVal = RegexUtil.ReplaceSpaceTabNewline(HtmlUtil.RemoveHTMLTag(nodes[0].GetValue()));
+            var nodeVal = RegexUtil.ReplaceSpaceTabNewline(HtmlUtil.RemoveHTMLTag(node.GetValue()));
 
             var vals = nodeVal.Split('◎');
             for (var i = 0; i < vals.Length; i++)
@@ -487,6 +553,28 @@ namespace MovieSpider.Services.Utils
                 if (vals[i].StartsWith(name))
                 {
                     val = vals[i].Remove(0, name.Length);
+                    break;
+                }
+            }
+
+            return val;
+        }
+
+        /// <summary>
+        /// 2013年前的数据, 取第一个 P标签数据
+        /// </summary>
+        /// <param name="nodes">所有P标签</param>
+        /// <param name="name">译名/片名/年代/简介 等</param>
+        /// <returns></returns>
+        private static string GetOldNodeValByNames(ISelectable node, string[] names)
+        {
+            string val = null;
+
+            foreach (var name in names)
+            {
+                val = GetOldNodeVal(node, name);
+                if (val != null)
+                {
                     break;
                 }
             }

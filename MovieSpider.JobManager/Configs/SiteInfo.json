@@ -26,5 +26,9 @@
   {
     "Path": "html/tv/rihantv",
     "MaxPageNo": 1
+  },
+  {
+    "Path": "8/",
+    "MaxPageNo": 1
   }
 ]

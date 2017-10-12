@@ -16,5 +16,13 @@ namespace MovieSpider.Core.Utils
         {
             return Regex.Replace(val, @"\s", "").Replace("&nbsp;", "").Replace(" ", "");
         }
+
+        /// <summary>
+        /// 正则 替换空格 tab字符 换行符 新行 , &nbsp;
+        /// </summary>
+        public static string ReplaceBr(string val)
+        {
+            return Regex.Replace(val, @"<br>", "").Replace("<br/>", "").Replace("<br />", "");
+        }
     }
 }
