@@ -33,20 +33,7 @@ namespace MovieSpider.JobManager.Jobs
 
             try
             {
-                var movieService = Ioc.Get<IMoviceService>();
-
-                var notDoneCount = movieService.GetNotDoneCount();
-                var pageCount = notDoneCount % CommonConst.TopCount == 0 ? notDoneCount / CommonConst.TopCount : notDoneCount / CommonConst.TopCount + 1;
-
-                for (var pageNo = 1; pageNo <= pageCount; pageNo++)
-                {
-                    var movies = movieService.GetNotDoneMovies(pageNo, CommonConst.TopCount);
-
-                    if (movies.Count > 0)
-                    {
-                        Dy2018DetailSpider.Run(movies);
-                    }
-                }
+                Run();
             }
             catch (Exception ex)
             {
@@ -55,6 +42,24 @@ namespace MovieSpider.JobManager.Jobs
 
             Console.WriteLine("Dy2018DetailJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("Dy2018DetailJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+        }
+
+        public void Run()
+        {
+            var movieService = Ioc.Get<IMoviceService>();
+
+            var notDoneCount = movieService.GetNotDoneCount();
+            var pageCount = notDoneCount % CommonConst.TopCount == 0 ? notDoneCount / CommonConst.TopCount : notDoneCount / CommonConst.TopCount + 1;
+
+            for (var pageNo = 1; pageNo <= pageCount; pageNo++)
+            {
+                var movies = movieService.GetNotDoneMovies(pageNo, CommonConst.TopCount);
+
+                if (movies.Count > 0)
+                {
+                    Dy2018DetailSpider.Run(movies);
+                }
+            }
         }
     }
 }
