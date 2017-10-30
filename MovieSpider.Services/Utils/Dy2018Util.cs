@@ -71,19 +71,19 @@ namespace MovieSpider.Services.Utils
         {
             MediaTypeEnum mediaTypeEnum = MediaTypeEnum.None;
 
-            if (url.ToLower().Contains("gndy"))
+            if (url.ToLower().Contains("gndy") || title.Contains("电影"))
             {
                 mediaTypeEnum = MediaTypeEnum.Movie;
             }
-            else if (url.ToLower().Contains("tv"))
+            else if (url.ToLower().Contains("tv") || title.Contains("电视剧"))
             {
                 mediaTypeEnum = MediaTypeEnum.TV;
             }
-            else if (url.ToLower().Contains("dongman"))
+            else if (url.ToLower().Contains("dongman") || title.Contains("动漫"))
             {
                 mediaTypeEnum = MediaTypeEnum.Cartoon;
             }
-            else if (url.ToLower().Contains("zongyi"))
+            else if (url.ToLower().Contains("zongyi") || title.Contains("综艺"))
             {
                 mediaTypeEnum = MediaTypeEnum.Variety;
             }
