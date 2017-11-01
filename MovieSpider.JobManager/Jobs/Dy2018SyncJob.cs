@@ -75,8 +75,8 @@ namespace MovieSpider.JobManager.Jobs
                         _logger.Info(result.Message);
                     }
 
-                    // 休眠 30 秒, 防止调用过快
-                    System.Threading.Thread.Sleep(30 * 1000);
+                    // 休眠 10 秒, 防止调用过快
+                    System.Threading.Thread.Sleep(10 * 1000);
                 }
             }
         }
