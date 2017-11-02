@@ -129,6 +129,8 @@ namespace MovieSpider.Services
 
                     m.IsDone = false;
                     m.IsSyncDone = false;
+
+                    m.UpdateTime = DateTime.Now;
                 });
 
                 db.SaveChanges();

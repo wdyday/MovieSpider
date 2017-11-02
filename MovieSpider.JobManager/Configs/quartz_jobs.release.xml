@@ -25,7 +25,7 @@
         <job-name>Dy2018Job</job-name>
         <job-group>Dy2018Job</job-group>
         <start-time>2016-01-01T00:00:00+08:00</start-time>
-        <cron-expression>0 0 0/12 * * ?</cron-expression>
+        <cron-expression>0 0 0/2 * * ?</cron-expression>
       </cron>
     </trigger>
 
@@ -63,7 +63,7 @@
         <job-name>Dy2018SyncJob</job-name>
         <job-group>Dy2018SyncJob</job-group>
         <start-time>2016-01-01T00:00:00+08:00</start-time>
-        <cron-expression>0 0/30 * * * ?</cron-expression>
+        <cron-expression>0 0/15 * * * ?</cron-expression>
       </cron>
     </trigger>
 

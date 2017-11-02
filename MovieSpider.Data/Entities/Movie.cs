@@ -47,11 +47,6 @@ namespace MovieSpider.Data.Entities
         public MediaTypeEnum MediaType { get; set; }
 
         /// <summary>
-        /// 发布日期
-        /// </summary>
-        public DateTime CreateTime { get; set; }
-
-        /// <summary>
         /// 首映日期: 取最小的日期, 如 2016-10-21(中国大陆) / 2016-08-26(美国) / 2016-08-31(法国), 取 2016-08-26(美国)
         /// </summary>
         public DateTime? PremiereDate { get; set; }
@@ -76,5 +71,15 @@ namespace MovieSpider.Data.Entities
         /// web同步过来, 不需要再抓取
         /// </summary>
         public bool IsSyncedByWeb { get; set; }
+
+        /// <summary>
+        /// 发布日期
+        /// </summary>
+        public DateTime CreateTime { get; set; }
+
+        /// <summary>
+        /// 发布日期
+        /// </summary>
+        public DateTime? UpdateTime { get; set; }
     }
 }
