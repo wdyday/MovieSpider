@@ -90,6 +90,7 @@ namespace MovieSpider.Services
                     }
 
                     dbMovie.IsDone = true;
+                    dbMovie.IsSyncDone = true;
                     dbMovie.IsSyncedByWeb = true;
                 }
 
