@@ -280,7 +280,8 @@ namespace MovieSpider.Services.Utils
             {
                 var nodeVal = RegexUtil.ReplaceSpaceTabNewline(node.GetValue());
 
-                if (nodeVal.Contains("◎") && nodeVal.Split('◎').Length > 1)
+                // <p>◎译名金刚狼3◎片名Logan...</p>
+                if (nodeVal.Contains("◎") && nodeVal.Split('◎').Length > 2)
                 {
                     isSamePTag = true;
                     break;
