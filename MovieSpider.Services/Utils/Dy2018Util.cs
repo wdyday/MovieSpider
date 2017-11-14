@@ -42,6 +42,10 @@ namespace MovieSpider.Services.Utils
                 RegionEnum? countryEnum = GetCountryEnum(summary);
                 if (countryEnum == null)
                 {
+                    countryEnum = GetCountryEnumFromTitle(title);
+                }
+                if (countryEnum == null)
+                {
                     countryEnum = GetCountryEnumFromUrl(spiderPage.TargetUrl);
                 }
                 if (countryEnum == null)
@@ -127,6 +131,26 @@ namespace MovieSpider.Services.Utils
                 {
                     countryEnum = RegionEnum.EuropeOrAmerica;
                 }
+            }
+
+            return countryEnum;
+        }
+
+        public static RegionEnum? GetCountryEnumFromTitle(string title)
+        {
+            RegionEnum? countryEnum = null;
+
+            if (CountryUtil.IsChina(title))
+            {
+                countryEnum = RegionEnum.China;
+            }
+            else if (CountryUtil.IsJapanOrKoreaa(title))
+            {
+                countryEnum = RegionEnum.JapanOrKorea;
+            }
+            else if (CountryUtil.IsEuropeOrAmerica(title))
+            {
+                countryEnum = RegionEnum.EuropeOrAmerica;
             }
 
             return countryEnum;

@@ -9,9 +9,9 @@ namespace MovieSpider.Core.Utils
 {
     public class CountryUtil
     {
-        public static readonly string[] China = new string[] { "中国", "中国大陆", "香港", "台湾", "澳门" };
-        public static readonly string[] EuropeOrAmerica = new string[] { "美国", "法国", "德国", "意大利", "英国", "荷兰", "爱尔兰", "巴西", "乌拉圭" };
-        public static readonly string[] JapanOrKorea = new string[] { "日本", "韩国" };
+        public static readonly string[] China = new string[] { "中国", "中国大陆", "香港", "台湾", "澳门", "国产" };
+        public static readonly string[] EuropeOrAmerica = new string[] { "美国", "法国", "德国", "意大利", "英国", "荷兰", "爱尔兰", "巴西", "乌拉圭", "欧美" };
+        public static readonly string[] JapanOrKorea = new string[] { "日本", "韩国", "日韩" };
 
         public static bool IsChina(string country)
         {
