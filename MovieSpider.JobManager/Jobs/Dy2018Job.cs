@@ -25,7 +25,7 @@ namespace MovieSpider.JobManager.Jobs
 
         public void Execute(IJobExecutionContext context)
         {
-            Console.WriteLine("Dy2018Job Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            //Console.WriteLine("Dy2018Job Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("Dy2018Job Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
 
             /*
@@ -77,7 +77,7 @@ namespace MovieSpider.JobManager.Jobs
                 _logger.Info(ex);
             }
 
-            Console.WriteLine("Dy2018Job End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            //Console.WriteLine("Dy2018Job End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("Dy2018Job End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
         }
     }

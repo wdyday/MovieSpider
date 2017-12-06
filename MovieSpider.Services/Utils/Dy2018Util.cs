@@ -203,13 +203,13 @@ namespace MovieSpider.Services.Utils
         /// <summary>
         /// 解析详情页html
         /// </summary>
-        public static Movie ParseDetailHtml(Page spiderPage)
+        public static MovieModel ParseDetailHtml(Page spiderPage)
         {
-            Movie movie = null;
+            MovieModel movie = null;
 
             try
             {
-                movie = (Movie)spiderPage.Request.GetExtra(spiderPage.TargetUrl);
+                movie = (MovieModel)spiderPage.Request.GetExtra(spiderPage.TargetUrl);
 
                 // 发布时间
                 // xpath: //div[@class='position']/span[@class='updatetime'] 

@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\MovieModels.cs" />
     <Compile Include="Models\PostModels.cs" />
     <Compile Include="SpiderDbContext.cs" />
     <Compile Include="Entities\Movie.cs" />

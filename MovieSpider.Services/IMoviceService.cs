@@ -29,13 +29,13 @@ namespace MovieSpider.Services
         /// </summary>
         /// <param name="index">页号(从1开始)</param>
         /// <param name="size">页大小</param>
-        List<Movie> GetNotDoneMovies(int index, int size);
+        List<MovieModel> GetNotDoneMovies(int index, int size);
 
         /// <summary>
         /// 更新 详细信息
         /// </summary>
         /// <param name="movie"></param>
-        void UpdateMovieDone(Movie movie);
+        void UpdateMovieDone(MovieModel movie);
 
         /// <summary>
         /// 网站后台修改的数据同步给 本地抓取库

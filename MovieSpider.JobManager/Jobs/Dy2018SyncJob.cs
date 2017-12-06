@@ -1,6 +1,7 @@
 ﻿using MovieSpider.Core;
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Ioc;
+using MovieSpider.Core.Utils;
 using MovieSpider.Services;
 using Newtonsoft.Json;
 using NLog;
@@ -28,19 +29,23 @@ namespace MovieSpider.JobManager.Jobs
 
         public void Execute(IJobExecutionContext context)
         {
-            Console.WriteLine("Dy2018SyncJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            //Console.WriteLine("Dy2018SyncJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("Dy2018SyncJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
 
             try
             {
+                _logger.Info("[内存 Dy2018SyncJob Start] " + SystemInfo.GetCurrentProcessMemory());
+
                 Run();
+
+                _logger.Info("[内存 Dy2018SyncJob End] " + SystemInfo.GetCurrentProcessMemory());
             }
             catch (Exception ex)
             {
                 _logger.Info(ex);
             }
 
-            Console.WriteLine("Dy2018SyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            //Console.WriteLine("Dy2018SyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("Dy2018SyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
         }
 

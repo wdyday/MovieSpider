@@ -20,14 +20,15 @@ namespace MovieSpider.Services
             }
         }
 
-        public void UpdateMovieDone(Movie movie)
+        public void UpdateMovieDone(MovieModel movie)
         {
             using (var db = new SpiderDbContext())
             {
                 var dbMovie = db.Movie.Where(m => m.MovieId == movie.MovieId).FirstOrDefault();
                 if (dbMovie != null)
                 {
-                    dbMovie.CreateTime = movie.CreateTime;
+                    dbMovie.UpdateTime = DateTime.Now;
+                    dbMovie.CreateTime = movie.CreateTime;  // 页面抓取
                     dbMovie.Detail = movie.Detail;
                     dbMovie.Summary = movie.Summary;
                     dbMovie.OtherCnNames = movie.OtherCnNames;
@@ -167,12 +168,19 @@ namespace MovieSpider.Services
         /// <param name="index">页号(从1开始)</param>
         /// <param name="size">页大小</param>
         /// <returns></returns>
-        public List<Movie> GetNotDoneMovies(int index, int size)
+        public List<MovieModel> GetNotDoneMovies(int index, int size)
         {
             using (var db = new SpiderDbContext())
             {
                 var skip = (index - 1) * size;
-                var movies = db.Movie.Where(m => !m.IsSyncedByWeb && !m.IsDone).OrderBy(m => m.MovieId).Skip(skip).Take(size).ToList();
+                var movies = db.Movie.Where(m => !m.IsSyncedByWeb && !m.IsDone)
+                    .OrderBy(m => m.MovieId)
+                    .Skip(skip).Take(size)
+                    .Select(m => new MovieModel
+                    {
+                        MovieId = m.MovieId,
+                        FromUrl = m.FromUrl
+                    }).ToList();
 
                 return movies;
             }

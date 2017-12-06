@@ -28,7 +28,7 @@ namespace MovieSpider.JobManager.Jobs
 
         public void Execute(IJobExecutionContext context)
         {
-            Console.WriteLine("Dy2018DetailJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            //Console.WriteLine("Dy2018DetailJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("Dy2018DetailJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
 
             try
@@ -40,7 +40,7 @@ namespace MovieSpider.JobManager.Jobs
                 _logger.Info(ex);
             }
 
-            Console.WriteLine("Dy2018DetailJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            //Console.WriteLine("Dy2018DetailJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("Dy2018DetailJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
         }
 
@@ -53,7 +53,11 @@ namespace MovieSpider.JobManager.Jobs
 
             for (var pageNo = 1; pageNo <= pageCount; pageNo++)
             {
+                _logger.Info("[内存 Dy2018DetailJob Start] " + SystemInfo.GetCurrentProcessMemory());
+
                 var movies = movieService.GetNotDoneMovies(pageNo, CommonConst.TopCount);
+
+                _logger.Info("[内存 Dy2018DetailJob End] " + SystemInfo.GetCurrentProcessMemory());
 
                 if (movies.Count > 0)
                 {

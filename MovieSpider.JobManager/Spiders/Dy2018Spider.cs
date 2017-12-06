@@ -80,6 +80,8 @@ namespace MovieSpider.JobManager.Spiders
 
             public override void Process(ResultItems resultItems)
             {
+                _logger.Info("[内存 Dy2018Pipeline Start] " + SystemInfo.GetCurrentProcessMemory());
+
                 var movies = new List<Movie>();
 
                 try
@@ -118,6 +120,8 @@ namespace MovieSpider.JobManager.Spiders
                             movieService.UpdateMovies(updateMovies);
                         }
                     }
+
+                    _logger.Info("[内存 Dy2018Pipeline End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)
                 {

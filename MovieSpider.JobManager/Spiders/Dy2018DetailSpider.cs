@@ -25,7 +25,7 @@ namespace MovieSpider.JobManager.Spiders
     {
         private NLog.ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public static void Run(List<Movie> movies)
+        public static void Run(List<MovieModel> movies)
         {
             try
             {
@@ -86,10 +86,12 @@ namespace MovieSpider.JobManager.Spiders
 
             public override void Process(ResultItems resultItems)
             {
-                Movie movie = null;
+                _logger.Info("[内存 Dy2018DetailPipeline Start] " + SystemInfo.GetCurrentProcessMemory());
+
+                MovieModel movie = null;
                 try
                 {
-                    movie = resultItems.Results[CommonConst.SpiderDetailResult] as Movie;
+                    movie = resultItems.Results[CommonConst.SpiderDetailResult] as MovieModel;
 
                     if (movie != null)
                     {
@@ -97,6 +99,9 @@ namespace MovieSpider.JobManager.Spiders
                         var movieService = Ioc.Get<IMoviceService>();
                         movieService.UpdateMovieDone(movie);
                     }
+
+
+                    _logger.Info("[内存 Dy2018DetailPipeline End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)
                 {
