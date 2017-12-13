@@ -10,6 +10,7 @@ using MovieSpider.JobManager.Jobs;
 using MovieSpider.JobManager.Spiders;
 using System.Collections.Generic;
 using MovieSpider.Data.Entities;
+using MovieSpider.Data.Models;
 
 namespace MovieSpider.Test
 {
@@ -30,10 +31,15 @@ namespace MovieSpider.Test
         public void Dy2018DetailSpiderTest()
         {
             // http://www.dy2018.com/i/92382.html
-            var movie = new MoviceService().Get(32752);
-            var movies = new List<Movie>
+            var movie = new MoviceService().Get(27463);
+            var movies = new List<MovieModel>
             {
-                movie
+                new MovieModel
+                {
+                    MovieId = movie.MovieId,
+                    FromUrl = movie.FromUrl,
+                    CreateTime = movie.CreateTime
+                }
             };
             Dy2018DetailSpider.Run(movies);
         }

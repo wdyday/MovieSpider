@@ -110,8 +110,6 @@ namespace MovieSpider.JobManager.Spiders
                     {
                         _logger.Info(JsonUtil.JsonToString(movie));
                     }
-
-                    LogManager.GetCurrentClassLogger().Info(ex);
                 }
             }
         }

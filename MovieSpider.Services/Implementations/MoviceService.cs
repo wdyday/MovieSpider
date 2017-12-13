@@ -179,7 +179,8 @@ namespace MovieSpider.Services
                     .Select(m => new MovieModel
                     {
                         MovieId = m.MovieId,
-                        FromUrl = m.FromUrl
+                        FromUrl = m.FromUrl,
+                        CreateTime = m.CreateTime
                     }).ToList();
 
                 return movies;
@@ -195,7 +196,7 @@ namespace MovieSpider.Services
         {
             using (var db = new SpiderDbContext())
             {
-                return db.Movie.Where(m => m.IsDone && !m.IsSyncedByWeb).Count();
+                return db.Movie.Where(m => m.IsDone && !m.IsSyncDone && !m.IsSyncedByWeb).Count();
             }
         }
 
@@ -207,7 +208,7 @@ namespace MovieSpider.Services
             using (var db = new SpiderDbContext())
             {
                 var skip = (index - 1) * size;
-                var movies = db.Movie.Where(m => m.IsDone && !m.IsSyncedByWeb).OrderBy(m => m.MovieId).Skip(skip).Take(size).ToList();
+                var movies = db.Movie.Where(m => m.IsDone && !m.IsSyncDone && !m.IsSyncedByWeb).OrderBy(m => m.MovieId).Skip(skip).Take(size).ToList();
 
                 return movies;
             }

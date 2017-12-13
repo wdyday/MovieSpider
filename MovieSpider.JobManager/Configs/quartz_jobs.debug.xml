@@ -11,7 +11,7 @@
   <!--任务配置-->
   <schedule>
     
-    <!--<job>
+    <job>
       <name>Dy2018Job</name>
       <group>Dy2018Job</group>
       <description>Task Job: Dy2018 Spider</description>
@@ -26,7 +26,8 @@
         <job-name>Dy2018Job</job-name>
         <job-group>Dy2018Job</job-group>
         <start-time>2016-01-01T00:00:00+08:00</start-time>
-        <cron-expression>0 0 0/5 * * ?</cron-expression>
+        <!--<cron-expression>0 0 0/5 * * ?</cron-expression>-->
+        <cron-expression>0 0 8-18/2 * * ?</cron-expression>
       </cron>
     </trigger>
 
@@ -47,7 +48,7 @@
         <start-time>2016-01-01T00:00:00+08:00</start-time>
         <cron-expression>0 0/3 * * * ?</cron-expression>
       </cron>
-    </trigger>-->
+    </trigger>
 
     <job>
       <name>Dy2018SyncJob</name>

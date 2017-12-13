@@ -213,8 +213,12 @@ namespace MovieSpider.Services.Utils
 
                 // 发布时间
                 // xpath: //div[@class='position']/span[@class='updatetime'] 
-                var createDateStr = spiderPage.Selectable.Select(Selectors.XPath("//div[@class='position']/span[@class='updatetime']")).GetValue().Trim(); // 发布时间：2016-06-13
-                var createDate = GetDate(createDateStr);
+                var createDateStr = spiderPage.Selectable.Select(Selectors.XPath("//div[@class='position']/span[@class='updatetime']")).GetValue(); // 发布时间：2016-06-13
+                if (string.IsNullOrEmpty(createDateStr))
+                {
+                    createDateStr = GetCreateDate(spiderPage.Content);
+                }
+                var createDate = !string.IsNullOrEmpty(createDateStr) ? GetDate(createDateStr.Trim()) : null;
 
                 // //*[@id="Zoom"]
                 var detailNode = spiderPage.Selectable.Select(Selectors.XPath("//*[@id=\"Zoom\"]"));
@@ -256,6 +260,8 @@ namespace MovieSpider.Services.Utils
             catch (Exception ex)
             {
                 _logger.Info(ex);
+
+                _logger.Info("[ParseDetailHtml Error] " + movie.FromUrl);
             }
 
             return movie;
@@ -611,6 +617,23 @@ namespace MovieSpider.Services.Utils
             if (match.Success)
             {
                 return Convert.ToDateTime(match.Value);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 正则匹配发布日期
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static string GetCreateDate(string content)
+        {
+            Regex regex = new Regex(@"发布时间：.*((\d{4})(-|/)(\d{1,2})(-|/)(\d{1,2}))");
+            var match = regex.Match(content);
+            if (match.Success)
+            {
+                return match.Value.Replace("发布时间：", "");
             }
 
             return null;
