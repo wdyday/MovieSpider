@@ -66,6 +66,8 @@ namespace MovieSpider.JobManager.Spiders
 
                     // 以自定义KEY存入page对象中供Pipeline调用
                     page.AddResultItem(CommonConst.SpiderResult, models);
+
+                    LogManager.GetCurrentClassLogger().Info("[内存 Dy2018Processor End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)
                 {
@@ -80,7 +82,7 @@ namespace MovieSpider.JobManager.Spiders
 
             public override void Process(ResultItems resultItems)
             {
-                _logger.Info("[内存 Dy2018Pipeline Start] " + SystemInfo.GetCurrentProcessMemory());
+                //_logger.Info("[内存 Dy2018Pipeline Start] " + SystemInfo.GetCurrentProcessMemory());
 
                 var movies = new List<Movie>();
 
@@ -105,11 +107,12 @@ namespace MovieSpider.JobManager.Spiders
 
                         var fromUrls = movies.Select(m => m.FromUrl).ToList();
                         var dbMovies = movieService.GetMoviesByFromUrls(fromUrls);
+                        var dbMovieFromUrls = dbMovies.Select(dbM => dbM.FromUrl).ToList();
 
                         // 新增
-                        var addMovies = movies.Where(m => !dbMovies.Select(dbM => dbM.FromUrl).Contains(m.FromUrl)).ToList();
-                        // 更新: 电视剧会更新剧集
-                        var updateMovies = movies.Where(m => dbMovies.Select(dbM => dbM.FromUrl).Contains(m.FromUrl)).ToList();
+                        var addMovies = movies.Where(m => !dbMovieFromUrls.Contains(m.FromUrl)).ToList();
+                        // 更新: 电视剧会更新剧集, 排除电影数据
+                        var updateMovies = movies.Where(m => dbMovieFromUrls.Contains(m.FromUrl) && m.MediaType != Data.Enums.MediaTypeEnum.Movie).ToList();
 
                         if (addMovies.Count > 0)
                         {

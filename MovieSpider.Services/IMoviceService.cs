@@ -17,7 +17,12 @@ namespace MovieSpider.Services
 
         void UpdateMovies(List<Movie> movies);
 
-        List<Movie> GetMoviesByFromUrls(List<string> fromUrls);
+        /// <summary>
+        /// 通过URL取Movie, 只返回 FromUrl/MediaType/IsDone
+        /// </summary>
+        /// <param name="fromUrls"></param>
+        /// <returns></returns>
+        List<MovieModel> GetMoviesByFromUrls(List<string> fromUrls);
 
         /// <summary>
         /// 取未抓取完成的总数, 分页用

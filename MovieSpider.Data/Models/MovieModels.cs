@@ -54,5 +54,10 @@ namespace MovieSpider.Data.Models
         /// 发布日期
         /// </summary>
         public DateTime CreateTime { get; set; }
+
+        /// <summary>
+        /// 抓取完成
+        /// </summary>
+        public bool IsDone { get; set; }
     }
 }

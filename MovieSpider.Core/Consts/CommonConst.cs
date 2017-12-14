@@ -10,7 +10,7 @@ namespace MovieSpider.Core.Consts
     {
         public static readonly string DateFormatYmdhms = "yyyy/MM/dd HH:mm:ss";
         public static readonly int PageSize = 20;
-        public static readonly int TopCount = 100;
+        public static readonly int TopCount = 50;
         public static readonly int SyncTopCount = 50;
 
         public static readonly string UTF8 = "UTF-8";

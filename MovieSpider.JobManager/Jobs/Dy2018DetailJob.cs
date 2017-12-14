@@ -53,11 +53,11 @@ namespace MovieSpider.JobManager.Jobs
 
             for (var pageNo = 1; pageNo <= pageCount; pageNo++)
             {
-                _logger.Info("[内存 Dy2018DetailJob Start] " + SystemInfo.GetCurrentProcessMemory());
+                //_logger.Info("[内存 Dy2018DetailJob Start] " + SystemInfo.GetCurrentProcessMemory());
 
                 var movies = movieService.GetNotDoneMovies(pageNo, CommonConst.TopCount);
 
-                _logger.Info("[内存 Dy2018DetailJob End] " + SystemInfo.GetCurrentProcessMemory());
+                //_logger.Info("[内存 Dy2018DetailJob End] " + SystemInfo.GetCurrentProcessMemory());
 
                 if (movies.Count > 0)
                 {

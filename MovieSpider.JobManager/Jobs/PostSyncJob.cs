@@ -33,12 +33,12 @@ namespace MovieSpider.JobManager.Jobs
 
         public void Execute(IJobExecutionContext context)
         {
-            Console.WriteLine("PostSyncJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            //Console.WriteLine("PostSyncJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("PostSyncJob Start! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
 
             Run();
 
-            Console.WriteLine("PostSyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
+            //Console.WriteLine("PostSyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
             _logger.Info("PostSyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
         }
 

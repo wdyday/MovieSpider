@@ -72,6 +72,8 @@ namespace MovieSpider.JobManager.Spiders
                         // 以自定义KEY存入page对象中供Pipeline调用
                         page.AddResultItem(CommonConst.SpiderDetailResult, movie);
                     }
+
+                    LogManager.GetCurrentClassLogger().Info("[内存 Dy2018DetailProcessor End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)
                 {
@@ -86,7 +88,7 @@ namespace MovieSpider.JobManager.Spiders
 
             public override void Process(ResultItems resultItems)
             {
-                _logger.Info("[内存 Dy2018DetailPipeline Start] " + SystemInfo.GetCurrentProcessMemory());
+                //_logger.Info("[内存 Dy2018DetailPipeline Start] " + SystemInfo.GetCurrentProcessMemory());
 
                 MovieModel movie = null;
                 try
@@ -99,8 +101,7 @@ namespace MovieSpider.JobManager.Spiders
                         var movieService = Ioc.Get<IMoviceService>();
                         movieService.UpdateMovieDone(movie);
                     }
-
-
+                    
                     _logger.Info("[内存 Dy2018DetailPipeline End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)

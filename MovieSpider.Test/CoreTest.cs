@@ -52,5 +52,16 @@ namespace MovieSpider.Test
             var movieService = Ioc.Get<IMoviceService>();
             //var movies = movieService.GetTopNotDoneMovies(CommonConst.PageSize);
         }
+
+        [TestMethod]
+        public void MovieServiceTest_GetNotDoneMovies()
+        {
+            var movieService = Ioc.Get<IMoviceService>();
+            var m1 = SystemInfo.GetCurrentProcessMemory();
+            var movies = movieService.GetNotDoneMovies(1, CommonConst.TopCount);
+            var m2 = SystemInfo.GetCurrentProcessMemory();
+
+            Assert.IsTrue(m2 != m1);
+        }
     }
 }

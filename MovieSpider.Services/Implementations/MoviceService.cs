@@ -139,11 +139,22 @@ namespace MovieSpider.Services
             }
         }
 
-        public List<Movie> GetMoviesByFromUrls(List<string> fromUrls)
+        /// <summary>
+        /// 通过URL取Movie, 只返回 FromUrl/MediaType/IsDone
+        /// </summary>
+        /// <param name="fromUrls"></param>
+        /// <returns></returns>
+        public List<MovieModel> GetMoviesByFromUrls(List<string> fromUrls)
         {
             using (var db = new SpiderDbContext())
             {
-                var movies = db.Movie.Where(m => fromUrls.Contains(m.FromUrl)).ToList();
+                var movies = db.Movie.Where(m => fromUrls.Contains(m.FromUrl))
+                    .Select(m => new MovieModel
+                    {
+                        FromUrl = m.FromUrl,
+                        MediaType = m.MediaType,
+                        IsDone = m.IsDone
+                    }).ToList();
 
                 return movies;
             }
@@ -174,14 +185,15 @@ namespace MovieSpider.Services
             {
                 var skip = (index - 1) * size;
                 var movies = db.Movie.Where(m => !m.IsSyncedByWeb && !m.IsDone)
-                    .OrderBy(m => m.MovieId)
-                    .Skip(skip).Take(size)
                     .Select(m => new MovieModel
                     {
                         MovieId = m.MovieId,
                         FromUrl = m.FromUrl,
                         CreateTime = m.CreateTime
-                    }).ToList();
+                    })
+                    .OrderBy(m => m.MovieId)
+                    .Skip(skip).Take(size)
+                    .ToList();
 
                 return movies;
             }
