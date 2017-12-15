@@ -1,4 +1,5 @@
 ﻿using DotnetSpider.Core;
+using DotnetSpider.Core.Infrastructure;
 using DotnetSpider.Core.Monitor;
 using NLog;
 using Quartz;
@@ -63,10 +64,6 @@ namespace MovieSpider.JobManager
 
                 // start the schedule 
                 sched.Start();
-
-
-                // 注入爬虫监控服务
-                IocContainer.Default.AddSingleton<IMonitor, NLogMonitor>();
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSpider.Core", "MovieSpider.Core\MovieSpider.Core.csproj", "{9FF5A374-9968-468D-9E10-902F16FEE679}"
 EndProject
@@ -58,5 +58,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{379C5C62-222B-4B22-A9AE-81517812C9E2} = {4CBE47E9-2D23-4288-9C0A-F2E09A39E9A6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D343B18D-E437-4222-932F-0A22AF6C5834}
 	EndGlobalSection
 EndGlobal

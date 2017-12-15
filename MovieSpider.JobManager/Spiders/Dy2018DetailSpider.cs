@@ -1,4 +1,5 @@
 ﻿using DotnetSpider.Core;
+using DotnetSpider.Core.Downloader;
 using DotnetSpider.Core.Monitor;
 using DotnetSpider.Core.Pipeline;
 using DotnetSpider.Core.Processor;
@@ -41,10 +42,14 @@ namespace MovieSpider.JobManager.Spiders
                 }
 
                 // 使用内存Scheduler、自定义PageProcessor、自定义Pipeline创建爬虫
-                Spider spider = Spider.Create(site, new Dy2018DetailProcessor(), new QueueDuplicateRemovedScheduler()).AddPipeline(new Dy2018DetailPipeline()).SetThreadNum(1);
-                spider.EmptySleepTime = 10 * 1000;
-                // 注册爬虫到监控服务
-                MonitorCenter.Register(spider);
+                Spider spider = Spider.Create(site, new QueueDuplicateRemovedScheduler(), new Dy2018DetailProcessor()).AddPipeline(new Dy2018DetailPipeline());
+
+                // dowload html by http client
+                spider.Downloader = new HttpClientDownloader();
+                // 1线程
+                spider.ThreadNum = 1;
+                // traversal deep 遍历深度
+                spider.Deep = 1;
 
                 // 启动爬虫
                 spider.Run();
@@ -57,11 +62,9 @@ namespace MovieSpider.JobManager.Spiders
             }
         }
 
-        private class Dy2018DetailProcessor : IPageProcessor
+        private class Dy2018DetailProcessor : BasePageProcessor
         {
-            public Site Site { get; set; }
-
-            public void Process(Page page)
+            protected override void Handle(Page page)
             {
                 try
                 {
@@ -86,20 +89,23 @@ namespace MovieSpider.JobManager.Spiders
         {
             private NLog.ILogger _logger = LogManager.GetCurrentClassLogger();
 
-            public override void Process(ResultItems resultItems)
+            public override void Process(IEnumerable<ResultItems> resultItems)
             {
                 //_logger.Info("[内存 Dy2018DetailPipeline Start] " + SystemInfo.GetCurrentProcessMemory());
 
                 MovieModel movie = null;
                 try
                 {
-                    movie = resultItems.Results[CommonConst.SpiderDetailResult] as MovieModel;
-
-                    if (movie != null)
+                    foreach (var resultItem in resultItems)
                     {
-                        // 存储到数据库
-                        var movieService = Ioc.Get<IMoviceService>();
-                        movieService.UpdateMovieDone(movie);
+                        movie = resultItem.Results[CommonConst.SpiderDetailResult] as MovieModel;
+
+                        if (movie != null)
+                        {
+                            // 存储到数据库
+                            var movieService = Ioc.Get<IMoviceService>();
+                            movieService.UpdateMovieDone(movie);
+                        }
                     }
                     
                     _logger.Info("[内存 Dy2018DetailPipeline End] " + SystemInfo.GetCurrentProcessMemory());

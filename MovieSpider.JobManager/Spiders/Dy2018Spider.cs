@@ -1,4 +1,5 @@
 ﻿using DotnetSpider.Core;
+using DotnetSpider.Core.Downloader;
 using DotnetSpider.Core.Monitor;
 using DotnetSpider.Core.Pipeline;
 using DotnetSpider.Core.Processor;
@@ -38,10 +39,17 @@ namespace MovieSpider.JobManager.Spiders
                 site.AddStartUrls(urls);
 
                 // 使用内存Scheduler、自定义PageProcessor、自定义Pipeline创建爬虫
-                Spider spider = Spider.Create(site, new Dy2018Processor(), new QueueDuplicateRemovedScheduler()).AddPipeline(new Dy2018Pipeline()).SetThreadNum(1);
-                spider.EmptySleepTime = 10 * 1000;
-                // 注册爬虫到监控服务
-                MonitorCenter.Register(spider);
+                Spider spider = Spider.Create(site, new QueueDuplicateRemovedScheduler(), new Dy2018Processor()).AddPipeline(new Dy2018Pipeline());
+
+                // dowload html by http client
+                spider.Downloader = new HttpClientDownloader();
+                // 2线程
+                spider.ThreadNum = 2;
+                // traversal deep 遍历深度
+                spider.Deep = 1;
+
+                // stop crawler if it can't get url from the scheduler after 30000 ms 当爬虫连续30秒无法从调度中心取得需要采集的链接时结束.
+                spider.EmptySleepTime = 30000;
 
                 // 启动爬虫
                 spider.Run();
@@ -76,11 +84,11 @@ namespace MovieSpider.JobManager.Spiders
             }
         }
 
-        private class Dy2018Pipeline : BasePipeline
+        public class Dy2018Pipeline : BasePipeline
         {
             private NLog.ILogger _logger = LogManager.GetCurrentClassLogger();
 
-            public override void Process(ResultItems resultItems)
+            public override void Process(IEnumerable<ResultItems> resultItems)
             {
                 //_logger.Info("[内存 Dy2018Pipeline Start] " + SystemInfo.GetCurrentProcessMemory());
 
@@ -88,16 +96,19 @@ namespace MovieSpider.JobManager.Spiders
 
                 try
                 {
-                    foreach (Dy2018Model model in resultItems.Results[CommonConst.SpiderResult])
+                    foreach (var resultItem in resultItems)
                     {
-                        //File.AppendAllLines("Dy2018.txt", new[] { model.Title, model.Url, model.Country.ToString() });
-                        movies.Add(new Movie
+                        foreach (Dy2018Model model in resultItem.Results[CommonConst.SpiderResult])
                         {
-                            CnName = model.Title,
-                            FromUrl = model.Url,
-                            Region = model.Country,
-                            MediaType = model.MediaType
-                        });
+                            //File.AppendAllLines("Dy2018.txt", new[] { model.Title, model.Url, model.Country.ToString() });
+                            movies.Add(new Movie
+                            {
+                                CnName = model.Title,
+                                FromUrl = model.Url,
+                                Region = model.Country,
+                                MediaType = model.MediaType
+                            });
+                        }
                     }
 
                     if (movies.Count > 0)
