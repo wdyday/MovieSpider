@@ -75,7 +75,7 @@ namespace MovieSpider.JobManager.Spiders
                     // 以自定义KEY存入page对象中供Pipeline调用
                     page.AddResultItem(CommonConst.SpiderResult, models);
 
-                    LogManager.GetCurrentClassLogger().Info("[内存 Dy2018Processor End] " + SystemInfo.GetCurrentProcessMemory());
+                    //LogManager.GetCurrentClassLogger().Info("[内存 Dy2018Processor End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)
                 {
@@ -135,7 +135,7 @@ namespace MovieSpider.JobManager.Spiders
                         }
                     }
 
-                    _logger.Info("[内存 Dy2018Pipeline End] " + SystemInfo.GetCurrentProcessMemory());
+                    //_logger.Info("[内存 Dy2018Pipeline End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)
                 {

@@ -435,11 +435,11 @@ namespace MovieSpider.Services.Utils
             {
                 name = "◎" + name;
             }
-            var node = nodes.Where(n => RegexUtil.ReplaceSpaceTabNewline(HtmlUtil.RemoveHTMLTag(n.GetValue())).Contains(name)).FirstOrDefault();
+            var node = nodes.Where(n => RegexUtil.ReplaceSpaceTabNewline(n.GetValue()).Contains(name)).FirstOrDefault();
             if (node != null)
             {
-                var nodeVal = RegexUtil.ReplaceSpaceTabNewline(HtmlUtil.RemoveHTMLTag(node.GetValue()));
-                return nodeVal.Replace(name, "");
+                var nodeVal = RegexUtil.ReplaceNewline(HtmlUtil.RemoveHTMLTag(node.GetValue()));
+                return nodeVal.Remove(0, RegexUtil.GetValue(nodeVal, name).Length); 
             }
             else
             {
@@ -497,7 +497,7 @@ namespace MovieSpider.Services.Utils
                 {
                     pCount++;
 
-                    summary += nodeVal;
+                    summary += HtmlUtil.RemoveHTMLTag(nodes[i].GetValue());
                 }
 
                 if (nodeVal.Contains("◎简介"))
@@ -571,14 +571,17 @@ namespace MovieSpider.Services.Utils
             string val = null;
 
             //◎译名钢琴木马/钢琴密码/钢琴密码之骇客公敌◎片名PianoTrojan◎年代2013
-            var nodeVal = RegexUtil.ReplaceSpaceTabNewline(HtmlUtil.RemoveHTMLTag(node.GetValue()));
+            //◎译　　名　不良少妇/不良女从夫传◎片　　名　NALRARI◎年　　代　2008◎国　　家　韩国◎类　　别　喜剧
+            //var nodeVal = RegexUtil.ReplaceSpaceTabNewline(HtmlUtil.RemoveHTMLTag(node.GetValue()));
+            var nodeVal = RegexUtil.ReplaceNewline(HtmlUtil.RemoveHTMLTag(node.GetValue()));
 
             var vals = nodeVal.Split('◎');
             for (var i = 0; i < vals.Length; i++)
             {
-                if (vals[i].StartsWith(name))
+                if (/*vals[i].StartsWith(name) ||*/ RegexUtil.StartsWith(vals[i], name))
                 {
-                    val = vals[i].Remove(0, name.Length);
+                    //val = vals[i].Remove(0, name.Length);
+                    val = vals[i].Remove(0, RegexUtil.GetValue(vals[i], name).Length);
                     break;
                 }
             }

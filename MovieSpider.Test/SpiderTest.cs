@@ -30,8 +30,11 @@ namespace MovieSpider.Test
         [TestMethod]
         public void Dy2018DetailSpiderTest()
         {
-            // http://www.dy2018.com/i/98780.html
-            var movie = new MoviceService().Get(26939);
+            /* http://www.dy2018.com/i/98805.html 37426
+             * http://www.dy2018.com/html/gndy/dyzz/20080917/14218.html 12
+             * 
+             */
+            var movie = new MoviceService().Get(37426);
             var movies = new List<MovieModel>
             {
                 new MovieModel

@@ -76,7 +76,7 @@ namespace MovieSpider.JobManager.Spiders
                         page.AddResultItem(CommonConst.SpiderDetailResult, movie);
                     }
 
-                    LogManager.GetCurrentClassLogger().Info("[内存 Dy2018DetailProcessor End] " + SystemInfo.GetCurrentProcessMemory());
+                    //LogManager.GetCurrentClassLogger().Info("[内存 Dy2018DetailProcessor End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)
                 {
@@ -108,7 +108,7 @@ namespace MovieSpider.JobManager.Spiders
                         }
                     }
                     
-                    _logger.Info("[内存 Dy2018DetailPipeline End] " + SystemInfo.GetCurrentProcessMemory());
+                    //_logger.Info("[内存 Dy2018DetailPipeline End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)
                 {
