@@ -439,7 +439,7 @@ namespace MovieSpider.Services.Utils
             if (node != null)
             {
                 var nodeVal = RegexUtil.ReplaceNewline(HtmlUtil.RemoveHTMLTag(node.GetValue()));
-                return nodeVal.Remove(0, RegexUtil.GetValue(nodeVal, name).Length); 
+                return nodeVal.Remove(0, RegexUtil.GetValue(nodeVal, name).Length);
             }
             else
             {
@@ -506,7 +506,7 @@ namespace MovieSpider.Services.Utils
                 }
             }
 
-            return summary;
+            return summary.Trim();
         }
 
         #endregion
@@ -586,7 +586,7 @@ namespace MovieSpider.Services.Utils
                 }
             }
 
-            return val;
+            return val != null ? val.Trim() : val;
         }
 
         /// <summary>
@@ -608,7 +608,7 @@ namespace MovieSpider.Services.Utils
                 }
             }
 
-            return val;
+            return val != null ? val.Trim() : val;
         }
 
         #endregion
