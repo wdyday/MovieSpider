@@ -14,9 +14,27 @@ namespace MovieSpider.Data.Models
         public string Title { get; set; }
 
         public string PostContent { get; set; }
+
+        /// <summary>
+        /// 管理员追加内容
+        /// </summary>
+        public string PostContentExtra { get; set; }
+
         public System.DateTime CreateTime { get; set; }
-        
+
         public string DefaultImagePath { get; set; }
+        public int LikeCount { get; set; }
+        public int HateCount { get; set; }
+        public int HitCount { get; set; }
+
+        /// <summary>
+        /// 状态:0-待审, 1-通过, 2-驳回
+        /// </summary>
+        public int Status { get; set; }
+
+        public string IP { get; set; }
+
+        #region Movie
 
         /// <summary>
         /// 地区: 1-中国,2-欧美,3-日韩
@@ -54,5 +72,26 @@ namespace MovieSpider.Data.Models
         /// 0: 电影, 1: 电视剧, 3: 动漫, 4: 综艺
         /// </summary>
         public MediaTypeEnum? MediaType { get; set; }
+
+        #endregion
+
+        public int BoardId { get; set; }
+
+        public int UserId { get; set; }
+
+        public virtual List<CommentModel> Comments { get; set; }
+    }
+
+    public class CommentModel
+    {
+        public int CommentId { get; set; }
+        public string CommentContent { get; set; }
+        public string IP { get; set; }
+        public int LikeCount { get; set; }
+        public int HateCount { get; set; }
+        public System.DateTime CreateTime { get; set; }
+        public bool Visible { get; set; }
+        public int PostId { get; set; }
+        public int UserId { get; set; }
     }
 }

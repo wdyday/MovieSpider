@@ -48,6 +48,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +57,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\IContentDbEnums.cs" />
+    <Compile Include="IContentDbContext.cs" />
+    <Compile Include="IContentEntities\AppConfig.cs" />
+    <Compile Include="IContentEntities\Board.cs" />
+    <Compile Include="IContentEntities\BoardRole.cs" />
+    <Compile Include="IContentEntities\Comment.cs" />
+    <Compile Include="IContentEntities\Feedback.cs" />
+    <Compile Include="IContentEntities\Post.cs" />
+    <Compile Include="IContentEntities\Role.cs" />
+    <Compile Include="IContentEntities\User.cs" />
+    <Compile Include="IContentEntities\UserProfile.cs" />
+    <Compile Include="IContentEntities\UserRole.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MovieModels.cs" />
     <Compile Include="Models\PostModels.cs" />

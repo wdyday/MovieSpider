@@ -99,6 +99,9 @@
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="Omu.ValueInjecter, Version=3.1.1.0, Culture=neutral, PublicKeyToken=c7694541b0ac80e4, processorArchitecture=MSIL">
+      <HintPath>..\packages\ValueInjecter.3.1.1.5\lib\net40\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
     <Reference Include="Polly, Version=5.6.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Polly.5.6.1\lib\net45\Polly.dll</HintPath>
       <Private>True</Private>
@@ -131,6 +134,7 @@
   <ItemGroup>
     <Compile Include="Jobs\Dy2018DetailJob.cs" />
     <Compile Include="Jobs\Dy2018Job.cs" />
+    <Compile Include="Jobs\PostSyncBakJob.cs" />
     <Compile Include="Jobs\PostSyncJob.cs" />
     <Compile Include="Jobs\Dy2018SyncJob.cs" />
     <Compile Include="MovieSpiderWindowsService.cs">
