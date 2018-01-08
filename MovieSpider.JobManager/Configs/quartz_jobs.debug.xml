@@ -103,7 +103,7 @@
         <job-name>RestartJob</job-name>
         <job-group>RestartJob</job-group>
         <start-time>2016-01-01T00:00:00+08:00</start-time>
-        <cron-expression>0 0 0/1 * * ?</cron-expression>
+        <cron-expression>0 0/10 * * * ?</cron-expression>
       </cron>
     </trigger>
 
