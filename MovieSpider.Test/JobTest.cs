@@ -30,5 +30,11 @@ namespace MovieSpider.Test
         {
             new Dy2018SyncJob().Run();
         }
+
+        [TestMethod]
+        public void RestartJobTest()
+        {
+            new RestartJob().Run();
+        }
     }
 }

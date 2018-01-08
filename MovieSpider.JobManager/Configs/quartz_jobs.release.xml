@@ -10,7 +10,7 @@
 
   <!--任务配置-->
   <schedule>
-    <!--<job>
+    <job>
       <name>Dy2018Job</name>
       <group>Dy2018Job</group>
       <description>Task Job: Dy2018 Spider</description>
@@ -84,9 +84,28 @@
         <start-time>2016-01-01T00:00:00+08:00</start-time>
         <cron-expression>0 0/2 * * * ?</cron-expression>
       </cron>
-    </trigger>-->
+    </trigger>
 
     <job>
+      <name>RestartJob</name>
+      <group>RestartJob</group>
+      <description>Task Job: Restart Service</description>
+      <job-type>MovieSpider.JobManager.Jobs.RestartJob, MovieSpider.JobManager</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <cron>
+        <name>RestartJobTrigger</name>
+        <group>RestartJobTrigger</group>
+        <job-name>RestartJob</job-name>
+        <job-group>RestartJob</job-group>
+        <start-time>2016-01-01T00:00:00+08:00</start-time>
+        <cron-expression>0 0 0/1 * * ?</cron-expression>
+      </cron>
+    </trigger>
+
+    <!--<job>
       <name>PostSyncBakJob</name>
       <group>PostSyncBakJob</group>
       <description>Task Job: Sync Post bakup To New Portal</description>
@@ -103,7 +122,7 @@
         <start-time>2016-01-01T00:00:00+08:00</start-time>
         <cron-expression>0 0 * * * ?</cron-expression>
       </cron>
-    </trigger>
+    </trigger>-->
 
   </schedule>
 

@@ -23,5 +23,14 @@ namespace MovieSpider.Core.Utils
 
             return memory;
         }
+
+        public static float GetCurrentProcessMemoryMB()
+        {
+            var ps = Process.GetCurrentProcess();
+            PerformanceCounter pfc = new PerformanceCounter("Process", "Working Set - Private", ps.ProcessName);   //第二个参数就是得到只有工作集
+            var memory = pfc.NextValue() / 1024 / 1024;
+
+            return memory;
+        }
     }
 }
