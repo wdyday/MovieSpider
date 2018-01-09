@@ -14,13 +14,13 @@ namespace MovieSpider.Core.Utils
         /// </summary>
         public static string ReplaceSpaceTabNewline(string val)
         {
-            return Regex.Replace(val, @"\s", "").Replace("&nbsp;", "");
+            return !string.IsNullOrEmpty(val) ? Regex.Replace(val, @"\s", "").Replace("&nbsp;", "") : val;
             //return Regex.Replace(val, @"\r|\n", ""); 
         }
 
         public static string ReplaceNewline(string val)
         {
-            return Regex.Replace(val, @"\r|\n", "");
+            return !string.IsNullOrEmpty(val) ? Regex.Replace(val, @"\r|\n", "") : val;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace MovieSpider.Core.Utils
         /// </summary>
         public static string ReplaceBr(string val)
         {
-            return Regex.Replace(val, @"<br>", "").Replace("<br/>", "").Replace("<br />", "");
+            return !string.IsNullOrEmpty(val) ? Regex.Replace(val, @"<br>", "").Replace("<br/>", "").Replace("<br />", "") : val;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace MovieSpider.Core.Utils
         public static bool StartsWith(string str, string val)
         {
             var pattern = string.Empty;
-            for(var i = 0; i < val.Length; i++)
+            for (var i = 0; i < val.Length; i++)
             {
                 pattern += val.Substring(i, 1) + "\\s*";
             }

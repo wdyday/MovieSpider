@@ -2,6 +2,7 @@
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Ioc;
 using MovieSpider.Core.Utils;
+using MovieSpider.JobManager.Utils;
 using MovieSpider.Services;
 using Newtonsoft.Json;
 using NLog;
@@ -51,6 +52,8 @@ namespace MovieSpider.JobManager.Jobs
 
         public void Run()
         {
+            var restUtils = new RestUtils();
+
             var movieService = Ioc.Get<IMoviceService>();
 
             var notSyncCount = movieService.GetNotSyncCount();
@@ -62,14 +65,7 @@ namespace MovieSpider.JobManager.Jobs
 
                 if (movies.Count > 0)
                 {
-                    RestClient client = new RestClient(_movieDomain);
-
-                    var request = new RestRequest("api/Movie/SaveMovies", Method.POST);
-                    request.AddJsonBody(movies);
-
-                    var response = client.Execute(request);
-
-                    var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
+                    var result = restUtils.SaveMovies(movies);
                     if (result.Success)
                     {
                         var movieIds = movies.Select(m => m.MovieId).ToList();
@@ -80,8 +76,8 @@ namespace MovieSpider.JobManager.Jobs
                         _logger.Info(result.Message);
                     }
 
-                    // 休眠 5 秒, 防止调用过快
-                    System.Threading.Thread.Sleep(5 * 1000);
+                    // 休眠 2 秒, 防止调用过快
+                    System.Threading.Thread.Sleep(2 * 1000);
                 }
             }
         }

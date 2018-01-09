@@ -5,6 +5,7 @@ using MovieSpider.Core.Ioc;
 using MovieSpider.Data.Entities;
 using MovieSpider.Data.IContentEntities;
 using MovieSpider.Data.Models;
+using MovieSpider.JobManager.Utils;
 using MovieSpider.Services;
 using MovieSpider.Services.Implementations;
 using Newtonsoft.Json;
@@ -50,6 +51,8 @@ namespace MovieSpider.JobManager.Jobs
         {
             try
             {
+                var restUtils = new RestUtils();
+
                 var postService = new PostService();
 
                 var count = postService.GetPostCount();
@@ -61,7 +64,11 @@ namespace MovieSpider.JobManager.Jobs
 
                     if (posts.Count > 0)
                     {
-                        SyncPosts(posts);
+                        var result = restUtils.SyncBakPosts(posts);
+                        if (!result.Success)
+                        {
+                            _logger.Info(result.Message);
+                        }
                     }
                 }
             }
@@ -70,45 +77,5 @@ namespace MovieSpider.JobManager.Jobs
                 _logger.Info(ex);
             }
         }
-
-        #region Rest
-
-        /// <summary>
-        /// 同步 Post
-        /// </summary>
-        /// <returns></returns>
-        private void SyncPosts(List<Post> posts)
-        {
-            try
-            {
-                var postModels = new List<PostModel>();
-                foreach (var post in posts)
-                {
-                    var postModel = new PostModel { Comments = new List<CommentModel>() };
-                    postModel.InjectFrom(post);
-                    postModel.Comments.InjectFrom(post.Comments);
-                    postModels.Add(postModel);
-                }
-
-                RestClient client = new RestClient(_movieDomain);
-
-                var request = new RestRequest("api/Movie/SyncPostsAndComments", Method.POST);
-                request.AddJsonBody(postModels);
-
-                var response = client.Execute(request);
-
-                var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
-                if (!result.Success)
-                {
-                    _logger.Info(result.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Info(ex);
-            }
-        }
-
-        #endregion
     }
 }

@@ -3,6 +3,7 @@ using MovieSpider.Core.Consts;
 using MovieSpider.Core.Ioc;
 using MovieSpider.Data.Entities;
 using MovieSpider.Data.Models;
+using MovieSpider.JobManager.Utils;
 using MovieSpider.Services;
 using Newtonsoft.Json;
 using NLog;
@@ -46,14 +47,15 @@ namespace MovieSpider.JobManager.Jobs
         {
             try
             {
+                var restUtils = new RestUtils();
                 var movieService = Ioc.Get<IMoviceService>();
 
-                var notSyncCount = GetNotSyncPostCount();
+                var notSyncCount = restUtils.GetNotSyncPostCount();
                 var pageCount = notSyncCount % CommonConst.SyncTopCount == 0 ? notSyncCount / CommonConst.SyncTopCount : notSyncCount / CommonConst.SyncTopCount + 1;
 
                 for (var pageNo = 1; pageNo <= pageCount; pageNo++)
                 {
-                    var posts = GetNotSyncPosts(pageNo, CommonConst.SyncTopCount);
+                    var posts = restUtils.GetNotSyncPosts(pageNo, CommonConst.SyncTopCount);
 
                     if (posts.Count > 0)
                     {
@@ -62,7 +64,7 @@ namespace MovieSpider.JobManager.Jobs
 
                         // 更新 web 端 IsSyncDone
                         var postIds = posts.Select(p => p.PostId).ToList();
-                        UpdateIsSyncDone(postIds);
+                        restUtils.UpdateIsSyncDone(postIds);
                     }
                 }
             }
@@ -71,111 +73,5 @@ namespace MovieSpider.JobManager.Jobs
                 _logger.Info(ex);
             }
         }
-
-        #region Rest
-
-        /// <summary>
-        /// 取未同步数据的数量
-        /// </summary>
-        /// <returns></returns>
-        private int GetNotSyncPostCount()
-        {
-            int count = 0;
-
-            try
-            {
-                RestClient client = new RestClient(_movieDomain);
-
-                var request = new RestRequest("api/Movie/GetNotSyncPostCount", Method.POST);
-                //request.AddJsonBody(null);
-
-                var response = client.Execute(request);
-
-                var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
-                if (result.Success)
-                {
-                    count = Convert.ToInt32(result.Data);
-                }
-                else
-                {
-                    _logger.Info(result.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Info(ex);
-            }
-
-            return count;
-        }
-
-        /// <summary>
-        /// 分页取未同步是数据
-        /// </summary>
-        private List<PostModel> GetNotSyncPosts(int pageIndex, int pageSize)
-        {
-            List<PostModel> movies = new List<PostModel>();
-
-            try
-            {
-                RestClient client = new RestClient(_movieDomain);
-
-                var body = new
-                {
-                    PageIndex = pageIndex,
-                    PageSize = pageSize
-                };
-                var request = new RestRequest("api/Movie/GetNotSyncPosts", Method.POST);
-                request.AddJsonBody(body);
-
-                var response = client.Execute(request);
-
-                var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
-                if (result.Success)
-                {
-                    movies = JsonConvert.DeserializeObject < List<PostModel>>(result.Data.ToString());
-                }
-                else
-                {
-                    _logger.Info(result.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Info(ex);
-            }
-
-            return movies;
-        }
-
-        /// <summary>
-        /// 更新 IsSyncDone
-        /// </summary>
-        /// <param name="postIds"></param>
-        /// <returns></returns>
-        private void UpdateIsSyncDone(List<int> postIds)
-        {
-            try
-            {
-                RestClient client = new RestClient(_movieDomain);
-
-                var request = new RestRequest("api/Movie/UpdateIsSyncDone", Method.POST);
-                request.AddJsonBody(postIds);
-
-                var response = client.Execute(request);
-
-                var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
-                if (!result.Success)
-                {
-                    _logger.Info(result.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Info(ex);
-            }
-        }
-
-        #endregion
     }
 }

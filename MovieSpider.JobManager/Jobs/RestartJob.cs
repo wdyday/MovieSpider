@@ -52,7 +52,7 @@ namespace MovieSpider.JobManager.Jobs
                 {
                     return;
                 }
-                _logger.Info("[RestartJob] Current Memory : " + memory);
+                _logger.Info("[RestartJob] Restart! Current Memory : " + memory);
 
                 var proc = new Process();
                 proc.StartInfo.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory.EndsWith(@"\")

@@ -6,6 +6,7 @@ using MovieSpider.Services.Utils;
 using MovieSpider.Core.Ioc;
 using MovieSpider.Services;
 using MovieSpider.Core.Consts;
+using MovieSpider.Core.Crypto;
 
 namespace MovieSpider.Test
 {
@@ -62,6 +63,12 @@ namespace MovieSpider.Test
             var m2 = SystemInfo.GetCurrentProcessMemory();
 
             Assert.IsTrue(m2 != m1);
+        }
+
+        [TestMethod]
+        public void CryptoUtilsTest_ComputeHash()
+        {
+            var key = CryptoUtils.ComputeHash("123456");
         }
     }
 }

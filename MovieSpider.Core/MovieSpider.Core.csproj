@@ -65,8 +65,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\MachineKeySection.cs" />
     <Compile Include="Consts\AppSetting.cs" />
     <Compile Include="Consts\CommonConst.cs" />
+    <Compile Include="Crypto\AESAlgo.cs" />
+    <Compile Include="Crypto\CryptoUtils.cs" />
+    <Compile Include="Crypto\DESAlgo.cs" />
+    <Compile Include="Crypto\HashAlgo.cs" />
+    <Compile Include="Crypto\MD5Algo.cs" />
+    <Compile Include="Crypto\SHA1Algo.cs" />
+    <Compile Include="Crypto\SymAlgo.cs" />
+    <Compile Include="Crypto\TripleDESAlgo.cs" />
     <Compile Include="Extentions\AssemblyExtension.cs" />
     <Compile Include="Extentions\TypeExtension.cs" />
     <Compile Include="Extentions\ValueInjecterExtension.cs" />
@@ -80,6 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseResult.cs" />
     <Compile Include="Utils\CountryUtil.cs" />
+    <Compile Include="Utils\DateUtil.cs" />
     <Compile Include="Utils\HtmlUtil.cs" />
     <Compile Include="Utils\JsonUtil.cs" />
     <Compile Include="Utils\PagerUtil.cs" />
