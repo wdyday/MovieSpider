@@ -55,11 +55,14 @@ namespace MovieSpider.JobManager.Jobs
                 _logger.Info("[RestartJob] Restart! Current Memory : " + memory);
 
                 var proc = new Process();
-                proc.StartInfo.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory.EndsWith(@"\")
-                    ? AppDomain.CurrentDomain.BaseDirectory + "Bats"
-                    : AppDomain.CurrentDomain.BaseDirectory + @"\Bats";
-                _logger.Info("[RestartJob] WorkingDirectory: " + proc.StartInfo.WorkingDirectory);
-                proc.StartInfo.FileName = @"RestartJob.bat";
+                //proc.StartInfo.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory.EndsWith(@"\")
+                //    ? AppDomain.CurrentDomain.BaseDirectory + "Bats"
+                //    : AppDomain.CurrentDomain.BaseDirectory + @"\Bats";
+
+                var fileName = $"{AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\')}\\Bats\\RestartJob.bat";
+                _logger.Info("[RestartJob] FileName: " + fileName);
+
+                proc.StartInfo.FileName = fileName;
                 //proc.StartInfo.Arguments = string.Format("10");//this is argument
                 proc.StartInfo.UseShellExecute = false;
                 proc.StartInfo.CreateNoWindow = true;
