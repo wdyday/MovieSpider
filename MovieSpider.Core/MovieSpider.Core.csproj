@@ -57,6 +57,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -90,10 +91,12 @@
     <Compile Include="ResponseResult.cs" />
     <Compile Include="Utils\CountryUtil.cs" />
     <Compile Include="Utils\DateUtil.cs" />
+    <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="Utils\HtmlUtil.cs" />
     <Compile Include="Utils\JsonUtil.cs" />
     <Compile Include="Utils\PagerUtil.cs" />
     <Compile Include="Utils\RegexUtil.cs" />
+    <Compile Include="Utils\WinServiceUtil.cs" />
     <Compile Include="Utils\SystemInfo.cs" />
   </ItemGroup>
   <ItemGroup>

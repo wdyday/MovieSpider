@@ -7,6 +7,7 @@ using MovieSpider.Core.Ioc;
 using MovieSpider.Services;
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Crypto;
+using System.Collections.Generic;
 
 namespace MovieSpider.Test
 {
@@ -69,6 +70,29 @@ namespace MovieSpider.Test
         public void CryptoUtilsTest_ComputeHash()
         {
             var key = CryptoUtils.ComputeHash("123456");
+        }
+
+        [TestMethod]
+        public void FileUtilTest_GetJson()
+        {
+            var path = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\') + "\\ServiceLogs\\Log.Json";
+            var info = FileUtil.GetJson<RestartInfo>(path);
+        }
+
+        [TestMethod]
+        public void FileUtilTest_Save()
+        {
+            var path = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\') + "\\ServiceLogs\\Log.Json";
+            var info = new List<RestartInfo>
+            {
+                new RestartInfo()
+                {
+                    ServiceName = "ServiceName",
+                    IsRestarted = false,
+                    RestartTime = DateTime.MaxValue
+                }
+            };
+            FileUtil.Save(path, info);
         }
     }
 }

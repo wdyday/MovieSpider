@@ -34,7 +34,27 @@ namespace MovieSpider.Test
         [TestMethod]
         public void RestartJobTest()
         {
-            new RestartJob().Run();
+            //new RestartJob().Run();
+            var _ServiceName = "MovieSpiderService";
+
+            var restartTime = WinServiceUtil.GetRestartTime(_ServiceName);
+            var restartedMinutes = DiffMinutes(restartTime, DateTime.Now);
+            if (restartedMinutes >= 5)
+            {
+                WinServiceUtil.Reset(_ServiceName);
+            }
+            if (WinServiceUtil.IsRestarted(_ServiceName))
+            {
+                //_logger.Info("[RestartJob] IsRestarted ...");
+                return;
+            }
+
+            var batFileName = $"{AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\')}\\Bats\\RestartJob.bat";
+            WinServiceUtil.Restart(_ServiceName, batFileName);
+        }
+        private int DiffMinutes(DateTime dateFrom, DateTime dateTo)
+        {
+            return (dateTo - dateFrom).Minutes;
         }
     }
 }
