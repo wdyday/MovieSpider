@@ -8,6 +8,7 @@ using MovieSpider.Services;
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Crypto;
 using System.Collections.Generic;
+using System.Web;
 
 namespace MovieSpider.Test
 {
@@ -69,7 +70,18 @@ namespace MovieSpider.Test
         [TestMethod]
         public void CryptoUtilsTest_ComputeHash()
         {
-            var key = CryptoUtils.ComputeHash("123456");
+            var key = "531ce320a4a341a691b37666a92d3e84";
+            var token = "f93ff0180c0d417e8e899cc6eda21666";
+            var val0 = CryptoUtils.ComputeHash(key + token);
+            var val0Encode = HttpUtility.UrlEncode(val0);
+            var val1 = CryptoUtils.ComputeHash("123456");
+            var val2 = HttpUtility.UrlEncode(CryptoUtils.ComputeHash("123456"));
+        }
+
+        [TestMethod]
+        public void CryptoUtilsTest_Encrypt()
+        {
+            var key = CryptoUtils.Encrypt("123456");
         }
 
         [TestMethod]
