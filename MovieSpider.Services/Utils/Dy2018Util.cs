@@ -209,7 +209,7 @@ namespace MovieSpider.Services.Utils
 
             try
             {
-                movie = (MovieModel)spiderPage.Request.GetExtra(spiderPage.TargetUrl);
+                movie = (MovieModel)spiderPage.Request.GetExtra(TrimScheme(spiderPage.TargetUrl));
 
                 // 发布时间
                 // xpath: //div[@class='position']/span[@class='updatetime'] 
@@ -643,5 +643,10 @@ namespace MovieSpider.Services.Utils
         }
 
         #endregion
+
+        public static string TrimScheme(string url)
+        {
+            return url.ToLower().Replace("http://", "").Replace("https://", "");
+        }
     }
 }

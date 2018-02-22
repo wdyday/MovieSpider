@@ -38,7 +38,7 @@ namespace MovieSpider.JobManager.Spiders
 
                 foreach (var movie in movies)
                 {
-                    site.AddStartUrl(movie.FromUrl, new Dictionary<string, object> { { movie.FromUrl, movie } });
+                    site.AddStartUrl(movie.FromUrl, new Dictionary<string, object> { { Dy2018Util.TrimScheme(movie.FromUrl), movie } });
                 }
 
                 // 使用内存Scheduler、自定义PageProcessor、自定义Pipeline创建爬虫
@@ -107,7 +107,7 @@ namespace MovieSpider.JobManager.Spiders
                             movieService.UpdateMovieDone(movie);
                         }
                     }
-                    
+
                     //_logger.Info("[内存 Dy2018DetailPipeline End] " + SystemInfo.GetCurrentProcessMemory());
                 }
                 catch (Exception ex)
