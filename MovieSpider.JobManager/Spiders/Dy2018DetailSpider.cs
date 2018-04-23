@@ -104,7 +104,7 @@ namespace MovieSpider.JobManager.Spiders
                         {
                             // 存储到数据库
                             var movieService = Ioc.Get<IMoviceService>();
-                            movieService.UpdateMovieDone(movie);
+                            movieService.UpdateMovieDetailDone(movie);
                         }
                     }
 

@@ -1,4 +1,4 @@
-﻿using MovieSpider.Data.Enums;
+﻿using MovieSpider.Data.DbEnums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\IContentDbEnums.cs" />
+    <Compile Include="Enums\DbEnums.cs" />
     <Compile Include="IContentDbContext.cs" />
     <Compile Include="IContentEntities\AppConfig.cs" />
     <Compile Include="IContentEntities\Board.cs" />
@@ -74,7 +74,6 @@
     <Compile Include="Models\PostModels.cs" />
     <Compile Include="SpiderDbContext.cs" />
     <Compile Include="Entities\Movie.cs" />
-    <Compile Include="Enums\Enums.cs" />
     <Compile Include="Models\Dy2018Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

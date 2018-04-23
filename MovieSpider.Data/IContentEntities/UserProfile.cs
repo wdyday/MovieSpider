@@ -1,6 +1,6 @@
 namespace MovieSpider.Data.IContentEntities
 {
-    using MovieSpider.Data.IContentEnums;
+    using MovieSpider.Data.DbEnums;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

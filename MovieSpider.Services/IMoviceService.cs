@@ -27,20 +27,20 @@ namespace MovieSpider.Services
         /// <summary>
         /// 取未抓取完成的总数, 分页用
         /// </summary>
-        int GetNotDoneCount();
+        int GetListDoneCount();
 
         /// <summary>
         /// 未抓取详情的数据
         /// </summary>
         /// <param name="index">页号(从1开始)</param>
         /// <param name="size">页大小</param>
-        List<MovieModel> GetNotDoneMovies(int index, int size);
+        List<MovieModel> GetListDoneMovies(int index, int size);
 
         /// <summary>
         /// 更新 详细信息
         /// </summary>
         /// <param name="movie"></param>
-        void UpdateMovieDone(MovieModel movie);
+        void UpdateMovieDetailDone(MovieModel movie);
 
         /// <summary>
         /// 网站后台修改的数据同步给 本地抓取库

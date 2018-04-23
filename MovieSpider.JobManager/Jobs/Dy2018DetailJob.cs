@@ -48,14 +48,14 @@ namespace MovieSpider.JobManager.Jobs
         {
             var movieService = Ioc.Get<IMoviceService>();
 
-            var notDoneCount = movieService.GetNotDoneCount();
+            var notDoneCount = movieService.GetListDoneCount();
             var pageCount = notDoneCount % CommonConst.TopCount == 0 ? notDoneCount / CommonConst.TopCount : notDoneCount / CommonConst.TopCount + 1;
 
             for (var pageNo = 1; pageNo <= pageCount; pageNo++)
             {
                 //_logger.Info("[内存 Dy2018DetailJob Start] " + SystemInfo.GetCurrentProcessMemory());
 
-                var movies = movieService.GetNotDoneMovies(pageNo, CommonConst.TopCount);
+                var movies = movieService.GetListDoneMovies(pageNo, CommonConst.TopCount);
 
                 //_logger.Info("[内存 Dy2018DetailJob End] " + SystemInfo.GetCurrentProcessMemory());
 

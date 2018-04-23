@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MovieSpider.Core.Utils;
-using MovieSpider.Data.Enums;
+using MovieSpider.Data.DbEnums;
 using MovieSpider.Services.Utils;
 using MovieSpider.Core.Ioc;
 using MovieSpider.Services;

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MovieSpider.Core.Utils;
-using MovieSpider.Data.Enums;
+using MovieSpider.Data.DbEnums;
 using MovieSpider.Services.Utils;
 using MovieSpider.Core.Ioc;
 using MovieSpider.Services;
@@ -61,7 +61,7 @@ namespace MovieSpider.Test
         {
             var movieService = Ioc.Get<IMoviceService>();
             var m1 = SystemInfo.GetCurrentProcessMemory();
-            var movies = movieService.GetNotDoneMovies(1, CommonConst.TopCount);
+            var movies = movieService.GetListDoneMovies(1, CommonConst.TopCount);
             var m2 = SystemInfo.GetCurrentProcessMemory();
 
             Assert.IsTrue(m2 != m1);

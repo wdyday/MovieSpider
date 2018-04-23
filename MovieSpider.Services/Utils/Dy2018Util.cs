@@ -3,7 +3,7 @@ using DotnetSpider.Core.Selector;
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Utils;
 using MovieSpider.Data.Entities;
-using MovieSpider.Data.Enums;
+using MovieSpider.Data.DbEnums;
 using MovieSpider.Data.Models;
 using System;
 using System.Collections.Generic;

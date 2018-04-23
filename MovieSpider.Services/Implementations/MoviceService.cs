@@ -7,6 +7,7 @@ using MovieSpider.Data.Entities;
 using MovieSpider.Core.Pager;
 using MovieSpider.Data;
 using MovieSpider.Data.Models;
+using MovieSpider.Data.DbEnums;
 
 namespace MovieSpider.Services
 {
@@ -20,7 +21,7 @@ namespace MovieSpider.Services
             }
         }
 
-        public void UpdateMovieDone(MovieModel movie)
+        public void UpdateMovieDetailDone(MovieModel movie)
         {
             using (var db = new SpiderDbContext())
             {
@@ -28,13 +29,12 @@ namespace MovieSpider.Services
                 if (dbMovie != null)
                 {
                     dbMovie.UpdateTime = DateTime.Now;
-                    dbMovie.CreateTime = movie.CreateTime;  // 页面抓取
                     dbMovie.Detail = movie.Detail;
                     dbMovie.Summary = movie.Summary;
                     dbMovie.OtherCnNames = movie.OtherCnNames;
                     dbMovie.PremiereDateMulti = movie.PremiereDateMulti;
                     dbMovie.PremiereDate = movie.PremiereDate;
-                    dbMovie.IsDone = true;
+                    dbMovie.JobStatus = JobStatusEnum.DetailDone;
 
                     db.SaveChanges();
                 }
@@ -90,8 +90,6 @@ namespace MovieSpider.Services
                         dbMovie.MediaType = post.MediaType.Value;
                     }
 
-                    dbMovie.IsDone = true;
-                    dbMovie.IsSyncDone = true;
                     dbMovie.IsSyncedByWeb = true;
                 }
 
@@ -105,8 +103,7 @@ namespace MovieSpider.Services
             {
                 movies.ForEach(m =>
                 {
-                    m.IsDone = false;
-                    m.IsSyncDone = false;
+                    m.JobStatus = JobStatusEnum.ListDone;
                     m.CreateTime = DateTime.Now;
                 });
                 db.Movie.AddRange(movies);
@@ -129,8 +126,7 @@ namespace MovieSpider.Services
                     m.Region = movie.Region;
                     m.MediaType = movie.MediaType;
 
-                    m.IsDone = false;
-                    m.IsSyncDone = false;
+                    m.JobStatus = m.JobStatus == JobStatusEnum.SyncDone ? JobStatusEnum.ListDone : m.JobStatus; // 同步完成后, 修改状态, 否则保持原状态
 
                     m.UpdateTime = DateTime.Now;
                 });
@@ -152,39 +148,38 @@ namespace MovieSpider.Services
                     .Select(m => new MovieModel
                     {
                         FromUrl = m.FromUrl,
-                        MediaType = m.MediaType,
-                        IsDone = m.IsDone
+                        MediaType = m.MediaType
                     }).ToList();
 
                 return movies;
             }
         }
 
-        #region 取未抓取完成的
+        #region 取概要抓取完成的
 
         /// <summary>
-        /// 取未抓取完成的总数, 分页用
+        /// 取概要抓取完成的总数, 分页用
         /// </summary>
-        public int GetNotDoneCount()
+        public int GetListDoneCount()
         {
             using (var db = new SpiderDbContext())
             {
-                return db.Movie.Where(m => !m.IsSyncedByWeb && !m.IsDone).Count();
+                return db.Movie.Where(m => !m.IsSyncedByWeb && m.JobStatus == JobStatusEnum.ListDone).Count();
             }
         }
 
         /// <summary>
-        /// 取未抓取完成的
+        /// 取概要抓取完成的
         /// </summary>
         /// <param name="index">页号(从1开始)</param>
         /// <param name="size">页大小</param>
         /// <returns></returns>
-        public List<MovieModel> GetNotDoneMovies(int index, int size)
+        public List<MovieModel> GetListDoneMovies(int index, int size)
         {
             using (var db = new SpiderDbContext())
             {
                 var skip = (index - 1) * size;
-                var movies = db.Movie.Where(m => !m.IsSyncedByWeb && !m.IsDone)
+                var movies = db.Movie.Where(m => !m.IsSyncedByWeb && m.JobStatus == JobStatusEnum.ListDone)
                     .Select(m => new MovieModel
                     {
                         MovieId = m.MovieId,
@@ -208,7 +203,7 @@ namespace MovieSpider.Services
         {
             using (var db = new SpiderDbContext())
             {
-                return db.Movie.Where(m => m.IsDone && !m.IsSyncDone && !m.IsSyncedByWeb).Count();
+                return db.Movie.Where(m => m.JobStatus == JobStatusEnum.DetailDone && !m.IsSyncedByWeb).Count();
             }
         }
 
@@ -220,7 +215,7 @@ namespace MovieSpider.Services
             using (var db = new SpiderDbContext())
             {
                 var skip = (index - 1) * size;
-                var movies = db.Movie.Where(m => m.IsDone && !m.IsSyncDone && !m.IsSyncedByWeb).OrderBy(m => m.MovieId).Skip(skip).Take(size).ToList();
+                var movies = db.Movie.Where(m => m.JobStatus == JobStatusEnum.DetailDone && !m.IsSyncedByWeb).OrderBy(m => m.MovieId).Skip(skip).Take(size).ToList();
 
                 return movies;
             }
@@ -234,7 +229,7 @@ namespace MovieSpider.Services
             using (var db = new SpiderDbContext())
             {
                 var movies = db.Movie.Where(m => movieIds.Contains(m.MovieId)).ToList();
-                movies.ForEach(m => m.IsSyncDone = true);
+                movies.ForEach(m => m.JobStatus = JobStatusEnum.SyncDone);
 
                 db.SaveChanges();
             }

@@ -1,4 +1,4 @@
-﻿using MovieSpider.Data.Enums;
+﻿using MovieSpider.Data.DbEnums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -56,17 +56,13 @@ namespace MovieSpider.Data.Entities
         /// </summary>
         [StringLength(1000)]
         public string PremiereDateMulti { get; set; }
-
+        
         /// <summary>
-        /// 抓取完成
+        /// 状态
+        /// 1: List抓取完成, 2: Detail抓取完成, 3: 同步web完成
         /// </summary>
-        public bool IsDone { get; set; }
-
-        /// <summary>
-        /// 同步给web完成
-        /// </summary>
-        public bool IsSyncDone { get; set; }
-
+        public JobStatusEnum? JobStatus { get; set; }
+        
         /// <summary>
         /// web同步过来, 不需要再抓取
         /// </summary>

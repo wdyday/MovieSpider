@@ -123,7 +123,7 @@ namespace MovieSpider.JobManager.Spiders
                         // 新增
                         var addMovies = movies.Where(m => !dbMovieFromUrls.Contains(m.FromUrl)).ToList();
                         // 更新: 电视剧会更新剧集, 排除电影数据
-                        var updateMovies = movies.Where(m => dbMovieFromUrls.Contains(m.FromUrl) && m.MediaType != Data.Enums.MediaTypeEnum.Movie).ToList();
+                        var updateMovies = movies.Where(m => dbMovieFromUrls.Contains(m.FromUrl) && m.MediaType != Data.DbEnums.MediaTypeEnum.Movie).ToList();
 
                         if (addMovies.Count > 0)
                         {

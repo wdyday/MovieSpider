@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieSpider.Data.IContentEnums
+namespace MovieSpider.Data.DbEnums
 {
     public enum GenderEnum
     {
@@ -38,6 +38,17 @@ namespace MovieSpider.Data.IContentEnums
         TV,
         Cartoon,
         Variety
+    }
+
+    /// <summary>
+    /// 同步状态
+    /// 1: List抓取完成, 2: Detail抓取完成, 3: 同步web完成
+    /// </summary>
+    public enum JobStatusEnum : byte
+    {
+        ListDone = 1,
+        DetailDone = 2,
+        SyncDone = 3
     }
 
 
