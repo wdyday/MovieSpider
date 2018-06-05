@@ -106,5 +106,12 @@ namespace MovieSpider.Test
             };
             FileUtil.Save(path, info);
         }
+
+        [TestMethod]
+        public void Cache_Test()
+        {
+            // cache
+            Services.IContentCache.IContentCacher.Init();
+        }
     }
 }

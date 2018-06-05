@@ -5,7 +5,6 @@ using MovieSpider.Data.Entities;
 using MovieSpider.Data.Models;
 using MovieSpider.JobManager.Utils;
 using MovieSpider.Services;
-using MovieSpider.Services.Implementations;
 using Newtonsoft.Json;
 using Omu.ValueInjecter;
 using RestSharp;

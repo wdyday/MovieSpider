@@ -90,17 +90,23 @@ namespace MovieSpider.JobManager.Utils
             {
                 return new ResponseResult(false, "Null Token");
             }
+            try
+            {
+                RestClient client = new RestClient(_movieDomain);
 
-            RestClient client = new RestClient(_movieDomain);
+                var request = new RestRequest(GetResource("api/Movie/SaveMovies"), Method.POST);
+                request.AddJsonBody(movies);
 
-            var request = new RestRequest(GetResource("api/Movie/SaveMovies"), Method.POST);
-            request.AddJsonBody(movies);
+                var response = client.Execute(request);
 
-            var response = client.Execute(request);
+                var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
 
-            var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
-
-            return result;
+                return result;
+            }
+            catch(Exception ex)
+            {
+                return new ResponseResult(false, ex.Message);
+            }
         }
 
         #endregion

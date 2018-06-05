@@ -37,7 +37,9 @@ namespace MovieSpider.JobManager.Jobs
             {
                 //_logger.Info("[内存 Dy2018SyncJob Start] " + SystemInfo.GetCurrentProcessMemory());
 
-                Run();
+                //Run();
+
+                SyncToWebDB();
 
                 //_logger.Info("[内存 Dy2018SyncJob End] " + SystemInfo.GetCurrentProcessMemory());
             }
@@ -50,6 +52,10 @@ namespace MovieSpider.JobManager.Jobs
             _logger.Info("Dy2018SyncJob End! " + DateTime.Now.ToString(CommonConst.DateFormatYmdhms));
         }
 
+        /// <summary>
+        /// 调用web服务器 api 同步数据
+        /// web api 可能被空间商屏蔽, 暂不使用
+        /// </summary>
         public void Run()
         {
             var restUtils = new RestUtils();
@@ -66,14 +72,49 @@ namespace MovieSpider.JobManager.Jobs
                 if (movies.Count > 0)
                 {
                     var result = restUtils.SaveMovies(movies);
+                    var movieIds = movies.Select(m => m.MovieId).ToList();
                     if (result.Success)
                     {
-                        var movieIds = movies.Select(m => m.MovieId).ToList();
                         movieService.UpdateSyncDone(movieIds);
                     }
                     else
                     {
                         _logger.Info(result.Message);
+                        _logger.Info($"SyncToWebError, movie ID: {string.Join(",", movieIds)}");
+                    }
+
+                    // 休眠 2 秒, 防止调用过快
+                    System.Threading.Thread.Sleep(2 * 1000);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 直接同步本地库数据到 WEB库
+        /// </summary>
+        public void SyncToWebDB()
+        {
+            var postService = new PostService();
+            var movieService = Ioc.Get<IMoviceService>();
+            var notSyncCount = movieService.GetNotSyncCount();
+            var pageCount = notSyncCount % CommonConst.SyncTopCount == 0 ? notSyncCount / CommonConst.SyncTopCount : notSyncCount / CommonConst.SyncTopCount + 1;
+
+            for (var pageNo = 1; pageNo <= pageCount; pageNo++)
+            {
+                var movies = movieService.GetNotSyncMovies(pageNo, CommonConst.SyncTopCount);
+
+                if (movies.Count > 0)
+                {
+                    var result = postService.SyncToWebDB(movies);
+                    var movieIds = movies.Select(m => m.MovieId).ToList();
+                    if (result.Success)
+                    {
+                        movieService.UpdateSyncDone(movieIds);
+                    }
+                    else
+                    {
+                        _logger.Info(result.Message);
+                        _logger.Info($"SyncToWebError, movie ID: {string.Join(",", movieIds)}");
                     }
 
                     // 休眠 2 秒, 防止调用过快

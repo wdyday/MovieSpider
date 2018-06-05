@@ -1,6 +1,7 @@
 ﻿using DotnetSpider.Core;
 using DotnetSpider.Core.Infrastructure;
 using DotnetSpider.Core.Monitor;
+using MovieSpider.Services.IContentCache;
 using NLog;
 using Quartz;
 using Quartz.Impl;
@@ -20,7 +21,7 @@ namespace MovieSpider.JobManager
     /// <summary>
     /// MovieSpider Service
     /// 创建服务:
-    ///     sc create MovieSpiderService binPath= "F:\Project\Movie\MovieSpider\MovieSpider.JobManager\bin\Release\MovieSpider.JobManager.exe" 
+    ///     sc create MovieSpiderService binPath= "F:\Project\Movie\MovieSpider\MovieSpider.JobManager\bin\Release\MovieSpider.JobManager.exe"  displayname= "MovieSpiderService"
     /// 配置服务:
     ///     sc config MovieSpiderService start = AUTO    (自动) 
     ///     sc config MovieSpiderService start = DEMAND(手动)
@@ -64,6 +65,9 @@ namespace MovieSpider.JobManager
 
                 // start the schedule 
                 sched.Start();
+
+                // cache
+                IContentCacher.Init();
             }
             catch (Exception ex)
             {

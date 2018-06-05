@@ -33,6 +33,9 @@ namespace MovieSpider.Data.IContentEntities
         public System.DateTime CreateTime { get; set; }
 
         [DataMember]
+        public System.DateTime? UpdateTime { get; set; }
+
+        [DataMember]
         [StringLength(300)]
         public string DefaultImagePath { get; set; }
         [DataMember]

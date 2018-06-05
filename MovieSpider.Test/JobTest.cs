@@ -28,7 +28,7 @@ namespace MovieSpider.Test
         [TestMethod]
         public void Dy2018SyncJobTest()
         {
-            new Dy2018SyncJob().Run();
+            new Dy2018SyncJob().SyncToWebDB();
         }
 
         [TestMethod]
