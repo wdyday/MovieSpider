@@ -9,6 +9,12 @@ namespace MovieSpider.Data.Models
 {
     public class Dy2018Model
     {
+        /// <summary>
+        /// 当前抓取的list 页号
+        /// 第一页一直更新DB
+        /// </summary>
+        public int PageIndex { get; set; }
+
         public string Title { get; set; }
 
         public string Url { get; set; }

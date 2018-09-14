@@ -113,5 +113,12 @@ namespace MovieSpider.Test
             // cache
             Services.IContentCache.IContentCacher.Init();
         }
+
+        [TestMethod]
+        public void GetListPageIndex_Test()
+        {
+            var index = Dy2018Util.GetListPageIndex("https://www.dy2018.com/html/gndy/dyzz/index_2.html");
+            Assert.AreEqual(2, index);
+        }
     }
 }

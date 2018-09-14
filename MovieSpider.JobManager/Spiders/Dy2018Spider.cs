@@ -1,10 +1,8 @@
 ﻿using DotnetSpider.Core;
 using DotnetSpider.Core.Downloader;
-using DotnetSpider.Core.Monitor;
 using DotnetSpider.Core.Pipeline;
 using DotnetSpider.Core.Processor;
 using DotnetSpider.Core.Scheduler;
-using DotnetSpider.Core.Selector;
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Ioc;
 using MovieSpider.Core.Utils;
@@ -15,8 +13,6 @@ using MovieSpider.Services.Utils;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Linq;
 
 namespace MovieSpider.JobManager.Spiders
@@ -92,12 +88,15 @@ namespace MovieSpider.JobManager.Spiders
             {
                 //_logger.Info("[内存 Dy2018Pipeline Start] " + SystemInfo.GetCurrentProcessMemory());
 
+                var dy2018Models = new List<Dy2018Model>();
                 var movies = new List<Movie>();
 
                 try
                 {
                     foreach (var resultItem in resultItems)
                     {
+                        dy2018Models.AddRange(resultItem.Results[CommonConst.SpiderResult]);
+
                         foreach (Dy2018Model model in resultItem.Results[CommonConst.SpiderResult])
                         {
                             //File.AppendAllLines("Dy2018.txt", new[] { model.Title, model.Url, model.Country.ToString() });
@@ -119,11 +118,12 @@ namespace MovieSpider.JobManager.Spiders
                         var fromUrls = movies.Select(m => m.FromUrl).ToList();
                         var dbMovies = movieService.GetMoviesByFromUrls(fromUrls);
                         var dbMovieFromUrls = dbMovies.Select(dbM => dbM.FromUrl).ToList();
+                        var pageOneUrls = dy2018Models.Where(m => m.PageIndex == 1).Select(m => m.Url).Distinct().ToList();
 
                         // 新增
                         var addMovies = movies.Where(m => !dbMovieFromUrls.Contains(m.FromUrl)).ToList();
-                        // 更新: 电视剧会更新剧集, 排除电影数据
-                        var updateMovies = movies.Where(m => dbMovieFromUrls.Contains(m.FromUrl) && m.MediaType != Data.DbEnums.MediaTypeEnum.Movie).ToList();
+                        // 更新: 1.第一页: 一直更新, 2.第一页以后: 电视剧会更新剧集, 排除电影数据
+                        var updateMovies = movies.Where(m => pageOneUrls.Contains(m.FromUrl) || dbMovieFromUrls.Contains(m.FromUrl) && m.MediaType != Data.DbEnums.MediaTypeEnum.Movie).ToList();
 
                         if (addMovies.Count > 0)
                         {

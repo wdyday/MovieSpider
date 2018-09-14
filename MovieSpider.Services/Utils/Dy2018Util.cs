@@ -2,15 +2,12 @@
 using DotnetSpider.Core.Selector;
 using MovieSpider.Core.Consts;
 using MovieSpider.Core.Utils;
-using MovieSpider.Data.Entities;
 using MovieSpider.Data.DbEnums;
 using MovieSpider.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MovieSpider.Services.Utils
 {
@@ -26,6 +23,7 @@ namespace MovieSpider.Services.Utils
         /// <returns></returns>
         public static List<Dy2018Model> ParseListHtml(Page spiderPage)
         {
+            var pageIndex = GetListPageIndex(spiderPage.Url);
             var items = spiderPage.Selectable.SelectList(Selectors.XPath("//table[@class='tbspan']")).Nodes();
 
             var models = new List<Dy2018Model>();
@@ -55,6 +53,7 @@ namespace MovieSpider.Services.Utils
 
                 var blog = new Dy2018Model
                 {
+                    PageIndex = pageIndex,
                     Country = countryEnum.Value,
                     MediaType = GetMediaTypeEnum(title, spiderPage.TargetUrl),
                     Title = HtmlUtil.RemoveHTMLTag(title),
@@ -194,6 +193,18 @@ namespace MovieSpider.Services.Utils
             }
 
             return countryEnum;
+        }
+
+        public static int GetListPageIndex(string url)
+        {
+            var pageIndex = 1;
+            Regex regex = new Regex(@"index_(\d+)");
+            Match match = regex.Match(url);
+            if (match.Success)
+            {
+                pageIndex = Convert.ToInt32(match.Value.Replace("index_", ""));
+            }
+            return pageIndex;
         }
 
         #endregion
