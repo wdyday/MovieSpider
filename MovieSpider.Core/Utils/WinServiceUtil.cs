@@ -127,7 +127,7 @@ namespace MovieSpider.Core.Utils
             var restartInfos = GetRestartInfos();
             var restartInfo = restartInfos.Where(r => r.ServiceName == serviceName).FirstOrDefault();
 
-            return restartInfo != null ? restartInfo : new RestartInfo() { IsRestarted = false, RestartTime = DateTime.MaxValue };
+            return restartInfo != null ? restartInfo : new RestartInfo() { IsRestarted = false, RestartTime = DateTime.MinValue };
         }
 
         #region private
